@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import org.controlsfx.control.textfield.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.layout.*?>
+<?import java.lang.*?>
+<?import org.controlsfx.control.*?>
+
+<AnchorPane cacheShape="false" centerShape="false" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="500.0" scaleShape="false" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hk.trade.permission.login.LoginController">
+   <cursor>
+      <Cursor fx:constant="DEFAULT" />
+   </cursor>
+   <children>
+      <AnchorPane layoutX="347.0" layoutY="159.0" prefHeight="242.0" prefWidth="451.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox layoutX="50.0" layoutY="25.0" prefHeight="50.0" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Label alignment="CENTER" prefHeight="105.0" prefWidth="500.0" text="交易系统         " textAlignment="JUSTIFY">
+                     <font>
+                        <Font name="Times New Roman" size="24.0" />
+                     </font>
+                     <effect>
+                        <Blend />
+                     </effect>
+                  </Label>
+               </children>
+            </HBox>
+            <AnchorPane prefHeight="243.0" prefWidth="329.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
+               <children>
+                  <Label layoutX="106.0" layoutY="27.0" text="账户：" />
+                  <Button layoutX="339.0" layoutY="104.0" mnemonicParsing="false" onAction="#logout" text="退出" />
+                  <Label fx:id="loginErrorMessage" layoutX="153.0" layoutY="136.0" prefHeight="15.0" prefWidth="233.0" />
+                  <Button layoutX="258.0" layoutY="104.0" mnemonicParsing="false" onAction="#login" text="登陆" />
+                  <Label layoutX="106.0" layoutY="69.0" text="密码：" />
+                  <CustomTextField fx:id="accountNo" layoutX="154.0" layoutY="23.0" prefHeight="23.0" prefWidth="225.0" />
+                  <CustomPasswordField fx:id="accountPassword" layoutX="154.0" layoutY="65.0" prefHeight="23.0" prefWidth="225.0" />
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
