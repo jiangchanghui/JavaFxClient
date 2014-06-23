@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.AreaChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="380.0" minWidth="450.0" pickOnBounds="true" prefHeight="400.0" prefWidth="640.0" style="" styleClass="clientarea-background" xmlns:fx="http://javafx.com/fxml">
+  <children>
+    <AnchorPane id="" pickOnBounds="false" prefHeight="37.0" prefWidth="640.0" visible="true">
+      <children>
+        <Label styleClass="logo-label" text="in-sideFX" AnchorPane.rightAnchor="187.0" AnchorPane.topAnchor="-5.0" />
+        <ImageView fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true" styleClass="logo" AnchorPane.rightAnchor="146.0" AnchorPane.topAnchor="-7.0" />
+      </children>
+    </AnchorPane>
+    <AnchorPane id="draggableNode" maxHeight="-1.0" maxWidth="-1.0" pickOnBounds="false" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+      <children>
+        <BorderPane prefHeight="282.0" prefWidth="517.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+          <bottom>
+            <TextArea id="" opacity="1.0" prefHeight="34.0" prefWidth="624.0" wrapText="true">
+              <effect>
+                <DropShadow offsetX="2.0" offsetY="2.0" />
+              </effect>
+              <BorderPane.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="15.0" />
+              </BorderPane.margin>
+            </TextArea>
+          </bottom>
+          <center>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+              <children>
+                <AreaChart fx:id="areaChart" minHeight="130.0" prefHeight="147.0" prefWidth="421.0" AnchorPane.bottomAnchor="165.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="7.0">
+                  <xAxis>
+                    <NumberAxis side="BOTTOM" />
+                  </xAxis>
+                  <yAxis>
+                    <NumberAxis side="LEFT" />
+                  </yAxis>
+                </AreaChart>
+                <PieChart id="PieChart" fx:id="pieChart" prefHeight="162.0" prefWidth="407.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" />
+              </children>
+            </AnchorPane>
+          </center>
+          <left>
+            <Accordion>
+              <expandedPane>
+                <TitledPane fx:id="x1" animated="false" text="Features">
+                  <content>
+                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                      <children>
+                        <Button mnemonicParsing="false" onAction="#handleShowUtilityStage" text="Show Utility stage" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="4.0" />
+                        <Button mnemonicParsing="false" onAction="#handleShowNonResizableStage" text="Show non resizable stage" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="37.0" />
+                      </children>
+                    </AnchorPane>
+                  </content>
+                </TitledPane>
+              </expandedPane>
+              <panes>
+                <fx:reference source="x1" />
+                <TitledPane animated="false" text="Enhancement">
+                  <content>
+                    <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  </content>
+                </TitledPane>
+              </panes>
+            </Accordion>
+          </left>
+          <padding>
+            <Insets />
+          </padding>
+        </BorderPane>
+      </children>
+    </AnchorPane>
+  </children>
+  <stylesheets>
+    <URL value="@demoapp.css" />
+  </stylesheets>
+</VBox>

@@ -15,7 +15,21 @@
             <artifactId>controlsfx</artifactId>
             <version>8.0.6</version>
         </dependency>
-
+        <dependency>
+            <groupId>elf</groupId>
+            <artifactId>elf.server.framework</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>elf</groupId>
+            <artifactId>elf.api.commons</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>elf</groupId>
+            <artifactId>elf.api.security</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>com.panemu</groupId>
             <artifactId>tiwulfx</artifactId>
@@ -63,6 +77,11 @@
             <version>1.9.5</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.amqp</groupId>
+            <artifactId>spring-rabbit</artifactId>
+            <version>1.2.0.RELEASE</version>
+        </dependency>
     </dependencies>
     <build>
         <resources>
@@ -81,6 +100,21 @@
 
             </resource>
         </resources>
+        <testResources>
+            <testResource>
+                <directory>src/test/java</directory>
+                <includes>
+                    <include>**/*.fxml</include>
+                    <include>**/*.xml</include>
+                    <include>**/*.png</include>
+                    <include>**/*.css</include>
+
+                </includes>
+            </testResource>
+            <testResource>
+                <directory>src/test/resources</directory>
+            </testResource>
+        </testResources>
         <plugins>
             <plugin>
                 <groupId>com.zenjava</groupId>

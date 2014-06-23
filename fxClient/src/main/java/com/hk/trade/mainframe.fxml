@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1024.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hk.trade.MainFrameworkController">
+   <children>
+      <HBox layoutX="112.0" layoutY="6.0" prefHeight="80.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <VBox prefHeight="80.0" prefWidth="144.0">
+               <children>
+                  <Label fx:id="userNameLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="44.0" prefWidth="144.0" text="\${userName}" textAlignment="RIGHT" underline="true">
+                     <font>
+                        <Font name="Microsoft YaHei Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" prefHeight="34.0" prefWidth="142.0" text="华夏自主交易系统" />
+               </children>
+            </VBox>
+            <HBox alignment="BOTTOM_LEFT" prefHeight="80.0" prefWidth="339.0" spacing="5.0">
+               <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+               <children>
+                  <ToggleButton fx:id="stockTradingButton" mnemonicParsing="false" prefHeight="48.0" prefWidth="89.0" styleClass="window-button" text="股票交易" />
+                  <ToggleButton fx:id="bondTradingButton" mnemonicParsing="false" prefHeight="48.0" prefWidth="89.0" styleClass="window-button" text="债券交易" />
+                  <ToggleButton fx:id="futureTradingButton" mnemonicParsing="false" prefHeight="48.0" prefWidth="89.0" styleClass="window-button" text="期货交易" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="5.0" stylesheets="@function-button.css" HBox.hgrow="ALWAYS">
+               <children>
+                  <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="64.0" prefWidth="64.0" styleClass="data_reload_button" text="刷新数据" />
+                  <Button contentDisplay="TOP" mnemonicParsing="false" prefHeight="64.0" prefWidth="64.0" styleClass="lock_screen_button" stylesheets="@function-button.css" text="锁定终端" />
+               </children></HBox>
+            <HBox prefHeight="80.0" prefWidth="116.0" />
+         </children>
+         <padding>
+            <Insets left="5.0" right="5.0" />
+         </padding>
+      </HBox>
+      <HBox prefHeight="5.0" prefWidth="200.0" style="-fx-background-color: #509EDe;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0" />
+      <AnchorPane layoutX="-14.0" layoutY="80.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="35.0" AnchorPane.leftAnchor="-14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="80.0" />
+      <HBox prefHeight="30.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+   </children>
+</AnchorPane>

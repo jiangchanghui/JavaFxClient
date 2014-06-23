@@ -94,6 +94,7 @@ public class MainController extends JavaFxController {
                 }
             }
         });
+        //application.getPrimaryStage().setMaximized(true);
     }
 
 

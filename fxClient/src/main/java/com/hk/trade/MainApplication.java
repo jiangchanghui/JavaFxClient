@@ -12,11 +12,4 @@ public class MainApplication extends JavaFxApplication {
     public static void main(String[] args) {
         Application.launch(MainApplication.class,args);
     }
-
-    @Override
-    protected Configuration buildGlobalConfiguration() {
-        return new Configuration("投资交易","order/query/PortfolioQuery",800,600);
-    }
-
-
 }

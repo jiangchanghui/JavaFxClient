@@ -1,0 +1,37 @@
+.window-button {
+    -fx-background-color: transparent transparent;
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 2;
+    -fx-padding: 0 0 0 0;
+    -fx-alignment: center;
+    -fx-border-color: #509ED5;
+    -fx-border-width: 2 2 0 2;
+}
+
+.window-button:hover {
+    -fx-background-color: #d9eaf6;
+    /*linear-gradient(#a3a3a3, #8b8b8b 34%, #777777 36%, #777777 63%, #8b8b8b 65%, #adadad);*/
+}
+
+.window-button:pressed {
+    -fx-background-color: #509ED5;
+}
+
+.window-button:selected {
+    -fx-background-color: #509ED5;
+}
+
+.window-button > .graphic {
+    -fx-background-color: #949494;
+    -fx-scale-shape: false;
+    -fx-padding: 4.5 4.5 4.5 4.5; /* Graphic is 9x9 px */
+}
+
+.window-button:hover > .graphic {
+    -fx-background-color: #fefeff;
+}
+
+.window-button:pressed > .graphic {
+    -fx-background-color: #cfcfcf;
+}
+

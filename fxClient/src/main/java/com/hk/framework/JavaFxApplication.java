@@ -1,136 +1,113 @@
 package com.hk.framework;
 
-import bibliothek.gui.DockController;
-import bibliothek.gui.Dockable;
-import bibliothek.gui.dock.DefaultDockable;
-import bibliothek.gui.dock.SplitDockStation;
-import bibliothek.gui.dock.common.CControl;
-import bibliothek.gui.dock.station.split.SplitDockProperty;
+import com.hk.framework.ui.Undecorator;
+import com.hk.framework.ui.UndecoratorScene;
+import com.hk.permission.login.LoginController;
 import javafx.application.Application;
-import javafx.embed.swing.SwingNode;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
-import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 
-import javax.swing.*;
-import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 
 public abstract class JavaFxApplication extends Application {
 
-    abstract protected Configuration buildGlobalConfiguration();
+	protected Stage primaryStage;
 
-    protected Stage stage;
+	private String rootSceneName;
+	private String applicationTitle;
 
-    protected Configuration globalConfiguration;
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		this.primaryStage = primaryStage;
+		primaryStage.setResizable(true);
+		primaryStage.initStyle(StageStyle.TRANSPARENT);
+		setUserAgentStylesheet(STYLESHEET_MODENA);
+		loadLoginUI("../permission/login/Login");
+		//primaryStage.show();
+	}
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        stage=primaryStage;
-        this.globalConfiguration = buildGlobalConfiguration();
-        setUserAgentStylesheet(STYLESHEET_MODENA);
-        switchScene(globalConfiguration.getRootSceneName());
-        stage.show();
-    }
+	public Stage getPrimaryStage() {
+		return primaryStage;
+	}
 
-    public JavaFxController switchScene(String sceneName) {
-        return switchScene(sceneName, globalConfiguration);
-    }
+	public void close() {
+		primaryStage.close();
+	}
 
+	private FxmlContent loadFxml(String fxmlUri) {
+		URL fxml = getClass().getResource(fxmlUri + ".fxml");
+		FXMLLoader loader = new FXMLLoader(fxml);
+		loader.setBuilderFactory(new JavaFXBuilderFactory());
+		try {
+			Pane pane = (Pane) loader.load();
+			JavaFxController controller = JavaFxController.class.cast(loader.getController()).setUp(this);
+			return new FxmlContent(pane, controller);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
 
-    public JavaFxController switchScene(String sceneName, Configuration sceneConf) {
-        URL fxml = getClass().getResource(sceneName + sceneConf.getFxmlExtension());
-        FXMLLoader loader = new FXMLLoader(fxml);
-        loader.setBuilderFactory(new JavaFXBuilderFactory());
-        try {
-            Pane pane = (Pane) loader.load();
-            Scene scene = new Scene(pane);
-            if (sceneConf.getStylesheetNames() != null) {
-                for (String stylesheetName : sceneConf.getStylesheetNames()) {
-                    scene.getStylesheets().add(
-                            getClass().getResource(stylesheetName)
-                                    .toExternalForm());
-                }
-            }
-            stage.setScene(scene);
-            stage.sizeToScene();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+	}
 
-        return JavaFxController.class.cast(loader.getController()).setUp(this);
-    }
-
-
-    public static class Configuration extends BaseConfiguration {
-        private double sceneWidth;
-        private double sceneHeight;
-        private String[] stylesheetNames;
-
-        public double getSceneWidth() {
-            return sceneWidth;
-        }
-
-        public double getSceneHeight() {
-            return sceneHeight;
-        }
-
-        public String[] getStylesheetNames() {
-            return stylesheetNames;
-        }
-
-        public Configuration(double sceneWidth, double sceneHeight) {
-            this(sceneWidth, sceneHeight, new String[] {});
-        }
-
-        public Configuration(double sceneWidth, double sceneHeight,
-                             String... stylesheetNames) {
-            this("", "", sceneWidth, sceneHeight, stylesheetNames);
-        }
-
-        public Configuration(String applicationTitle, String rootSceneName,
-                             double sceneWidth, double sceneHeight) {
-            this(applicationTitle, rootSceneName, sceneWidth, sceneHeight,
-                    new String[] {});
-        }
-
-        public Configuration(String applicationTitle, String rootSceneName,
-                             double sceneWidth, double sceneHeight,
-                             String... stylesheetNames) {
-            super(applicationTitle, rootSceneName);
-            this.sceneWidth = sceneWidth;
-            this.sceneHeight = sceneHeight;
-            this.stylesheetNames = stylesheetNames;
-        }
-    }
+	public JavaFxController loadUI(String sceneName) {
+		FxmlContent fxmlContent = loadFxml(sceneName);
+		if (fxmlContent == null) {
+			return null;
+		}
+		final UndecoratorScene undecoratorScene = new UndecoratorScene(primaryStage, fxmlContent.getPane());
+		undecoratorScene.setFadeInTransition();
+		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+			@Override
+			public void handle(WindowEvent we) {
+				we.consume();   // Do not hide
+				undecoratorScene.setFadeOutTransition();
+			}
+		});
+		primaryStage.setScene(undecoratorScene);
+		primaryStage.sizeToScene();
+		primaryStage.toFront();
+		Undecorator undecorator = undecoratorScene.getUndecorator();
+		primaryStage.setMinWidth(undecorator.getMinWidth());
+		primaryStage.setMinHeight(undecorator.getMinHeight());
+		return fxmlContent.getController();
+	}
 
 
-    public static abstract class BaseConfiguration {
-        private String applicationTitle;
-        private String rootSceneName;
-        private String fxmlExtension;
+	public void loadLoginUI(String sceneName) {
+		Stage stage = new Stage();
+		FxmlContent fxmlContent = loadFxml(sceneName);
+		if (fxmlContent == null) {
+			return;
+		}
+		final UndecoratorScene undecoratorScene = new UndecoratorScene(stage, fxmlContent.getPane());
+		undecoratorScene.setFadeInTransition();
+		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+			@Override
+			public void handle(WindowEvent we) {
+				we.consume();   // Do not hide
+				undecoratorScene.setFadeOutTransition();
+				primaryStage.close();
+			}
+		});
+		LoginController loginController = (LoginController) fxmlContent.getController();
+		loginController.setStage(stage);
+		stage.initOwner(primaryStage);
+		stage.setScene(undecoratorScene);
+		stage.sizeToScene();
+		stage.toFront();
+		Undecorator undecorator = undecoratorScene.getUndecorator();
+		stage.setMinWidth(undecorator.getMinWidth());
+		stage.setMinHeight(undecorator.getMinHeight());
+		stage.setResizable(false);
+		stage.show();
+	}
 
-        public BaseConfiguration(String applicationTitle, String rootSceneName) {
-            this.applicationTitle = applicationTitle;
-            this.rootSceneName = rootSceneName;
-            this.fxmlExtension = ".fxml";
-        }
 
-        public String getApplicationTitle() {
-            return applicationTitle;
-        }
-
-        public String getRootSceneName() {
-            return rootSceneName;
-        }
-
-        public String getFxmlExtension() {
-            return fxmlExtension;
-        }
-    }
 
 }

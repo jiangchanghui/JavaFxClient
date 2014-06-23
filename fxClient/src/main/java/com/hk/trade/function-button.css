@@ -1,0 +1,9 @@
+.data_reload_button {
+    -fx-graphic: url("data_reload.png");
+}
+
+.lock_screen_button {
+    -fx-graphic: url("lock_screen.png");
+}
+
+
