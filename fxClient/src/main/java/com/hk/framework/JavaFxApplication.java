@@ -11,6 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
+import org.controlsfx.dialog.Dialogs;
 
 import java.io.IOException;
 import java.net.URL;
@@ -29,7 +30,6 @@ public abstract class JavaFxApplication extends Application {
 		primaryStage.initStyle(StageStyle.TRANSPARENT);
 		setUserAgentStylesheet(STYLESHEET_MODENA);
 		loadLoginUI("../permission/login/Login");
-		//primaryStage.show();
 	}
 
 	public Stage getPrimaryStage() {
@@ -85,6 +85,7 @@ public abstract class JavaFxApplication extends Application {
 		if (fxmlContent == null) {
 			return;
 		}
+		stage.setResizable(false);
 		final UndecoratorScene undecoratorScene = new UndecoratorScene(stage, fxmlContent.getPane());
 		undecoratorScene.setFadeInTransition();
 		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -104,7 +105,6 @@ public abstract class JavaFxApplication extends Application {
 		Undecorator undecorator = undecoratorScene.getUndecorator();
 		stage.setMinWidth(undecorator.getMinWidth());
 		stage.setMinHeight(undecorator.getMinHeight());
-		stage.setResizable(false);
 		stage.show();
 	}
 
