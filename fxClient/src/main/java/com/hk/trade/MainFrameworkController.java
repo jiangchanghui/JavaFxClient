@@ -1,6 +1,7 @@
 package com.hk.trade;
 
 import com.hk.framework.JavaFxController;
+import com.hk.permission.login.SessionManger;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
@@ -24,7 +25,7 @@ public class MainFrameworkController extends JavaFxController {
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
-		userNameLabel.setText("Jiangch");
+		userNameLabel.setText(SessionManger.getCurrentAccount());
 		ToggleGroup toggleGroup = new ToggleGroup();
 		toggleGroup.getToggles().addAll(stockTradingButton,bondTradingButton,futureTradingButton);
 		toggleGroup.selectToggle(stockTradingButton);

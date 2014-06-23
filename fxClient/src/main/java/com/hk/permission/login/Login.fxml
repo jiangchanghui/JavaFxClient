@@ -13,16 +13,16 @@
 <?import java.lang.*?>
 <?import org.controlsfx.control.*?>
 
-<AnchorPane cacheShape="false" centerShape="false" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="272.0" prefWidth="363.0" scaleShape="false" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hk.permission.login.LoginController">
+<AnchorPane cacheShape="false" centerShape="false" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="258.0" prefWidth="363.0" scaleShape="false" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hk.permission.login.LoginController">
    <cursor>
       <Cursor fx:constant="DEFAULT" />
    </cursor>
    <children>
       <AnchorPane layoutX="347.0" layoutY="159.0" prefHeight="242.0" prefWidth="451.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox layoutX="50.0" layoutY="25.0" prefHeight="114.0" prefWidth="363.0" AnchorPane.bottomAnchor="158.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <HBox layoutX="50.0" layoutY="25.0" prefHeight="114.0" prefWidth="363.0" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Label alignment="CENTER" prefHeight="114.0" prefWidth="363.0" text="交易系统         " textAlignment="JUSTIFY" HBox.hgrow="ALWAYS">
+                  <Label alignment="CENTER" prefHeight="115.0" prefWidth="363.0" text="交易系统         " textAlignment="JUSTIFY" HBox.hgrow="ALWAYS">
                      <font>
                         <Font name="Times New Roman" size="24.0" />
                      </font>
@@ -32,10 +32,10 @@
                   </Label>
                </children>
             </HBox>
-            <AnchorPane layoutY="104.0" prefHeight="168.0" prefWidth="363.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="104.0">
+            <AnchorPane layoutY="76.0" prefHeight="196.0" prefWidth="363.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="76.0">
                <children>
                   <Label fx:id="loginErrorMessage" layoutX="99.0" layoutY="104.0" prefHeight="15.0" prefWidth="244.0" />
-                  <Button fx:id="loginButton" layoutX="272.0" layoutY="122.0" mnemonicParsing="false" onAction="#login" prefHeight="32.0" prefWidth="64.0" text="登   陆" AnchorPane.rightAnchor="20.0" />
+                  <Button fx:id="loginButton" layoutX="279.0" layoutY="112.0" mnemonicParsing="false" onAction="#login" prefHeight="32.0" prefWidth="64.0" text="登   陆" AnchorPane.rightAnchor="20.0" />
                   <CustomTextField fx:id="accountNoTextField" layoutX="154.0" layoutY="23.0" prefHeight="23.0" prefWidth="244.0" AnchorPane.rightAnchor="20.0">
                      <font>
                         <Font name="Microsoft YaHei" size="14.0" />
@@ -52,7 +52,20 @@
                         <Rectangle2D height="48.0" width="48.0" />
                      </viewport>
                   </ImageView>
-                  <Button fx:id="settingButton" layoutX="29.0" layoutY="122.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="64.0" text="通信设置" AnchorPane.leftAnchor="40.0" />
+                  <Button fx:id="settingButton" layoutX="40.0" layoutY="112.0" mnemonicParsing="false" prefHeight="32.0" prefWidth="64.0" text="通信设置" AnchorPane.leftAnchor="40.0" />
+                  <HBox prefHeight="20.0" prefWidth="200.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+                     <children>
+                        <Label fx:id="progressLabel" alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="15.0" prefWidth="124.0" text="Label" textFill="#2b9c9e" textOverrun="CLIP">
+                           <font>
+                              <Font name="System Bold Italic" size="12.0" />
+                           </font>
+                        </Label>
+                        <ProgressBar fx:id="progressBar" prefHeight="18.0" prefWidth="305.0" progress="0.0" HBox.hgrow="ALWAYS" />
+                     </children>
+                     <opaqueInsets>
+                        <Insets left="10.0" />
+                     </opaqueInsets>
+                  </HBox>
                </children>
             </AnchorPane>
          </children>
