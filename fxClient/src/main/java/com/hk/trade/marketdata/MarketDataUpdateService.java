@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.ScheduledService;
 import javafx.concurrent.Task;
+import org.apache.commons.lang.StringUtils;
 
 import java.math.BigDecimal;
 import java.util.Random;
@@ -35,6 +36,11 @@ public class MarketDataUpdateService extends ScheduledService<ObservableList<Mar
 
 		@Override
 		protected ObservableList<MarketData> call() throws Exception {
+			if(StringUtils.isEmpty(getSelectedSymbol())){
+				ObservableList<MarketData> marketDatas = FXCollections.observableArrayList();
+				marketDatas.add(new MarketData());
+				return marketDatas;
+			}
 			updateMarketData();
 			ObservableList<MarketData> marketDatas = FXCollections.observableArrayList();
 			marketDatas.add(marketData);

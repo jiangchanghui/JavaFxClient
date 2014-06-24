@@ -1,5 +1,6 @@
 package com.hk.framework.ui;
 
+import com.hk.trade.marketdata.SecurityData;
 import org.junit.Assert;
 import org.junit.Test;
 

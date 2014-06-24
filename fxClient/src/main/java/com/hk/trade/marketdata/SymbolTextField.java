@@ -1,23 +1,19 @@
-package com.hk.framework.ui;
+package com.hk.trade.marketdata;
 
 import impl.org.controlsfx.autocompletion.AutoCompletionTextFieldBinding;
 import impl.org.controlsfx.autocompletion.SuggestionProvider;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 import org.apache.commons.lang.StringUtils;
 import org.controlsfx.control.textfield.AutoCompletionBinding;
 import org.controlsfx.control.textfield.CustomTextField;
-import org.controlsfx.control.textfield.TextFields;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
+import java.util.List;
 
 /**
  * Created by jiangch on 2014/6/24.
@@ -26,13 +22,10 @@ public class SymbolTextField extends CustomTextField {
 
 	private SimpleStringProperty selectedSymbol = new SimpleStringProperty();
 	private Label rightLabel = new Label();
-	public SymbolTextField() {
-		ArrayList<SecurityData> possibleSecurities = new ArrayList<>();
-		possibleSecurities.add(new SecurityData("600000","浦发银行"));
-		possibleSecurities.add(new SecurityData("000001","深发展"));
+	public SymbolTextField(List<SecurityData> possibleSecurities) {
 		SecuritySuggestionProvider securitySuggestionProvider = new SecuritySuggestionProvider();
 		securitySuggestionProvider.addPossibleSuggestions(possibleSecurities);
-		new AutoCompletionCustomTextFieldBinding(this,securitySuggestionProvider);
+		new AutoCompletionCustomTextFieldBinding(this, securitySuggestionProvider);
 		setRight(rightLabel);
 		textProperty().addListener(new ChangeListener<String>() {
 			@Override
@@ -117,10 +110,6 @@ public class SymbolTextField extends CustomTextField {
 
 		public AutoCompletionCustomTextFieldBinding(SymbolTextField textField, Callback suggestionProvider) {
 			super(textField, suggestionProvider);
-		}
-
-		public AutoCompletionCustomTextFieldBinding(SymbolTextField textField, Callback suggestionProvider, StringConverter converter) {
-			super(textField, suggestionProvider, converter);
 		}
 
 		@Override

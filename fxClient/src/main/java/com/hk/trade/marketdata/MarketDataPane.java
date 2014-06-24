@@ -13,7 +13,6 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
-import org.controlsfx.control.textfield.TextFields;
 import org.controlsfx.tools.Borders;
 
 import java.util.ArrayList;
@@ -24,7 +23,7 @@ import java.util.List;
  */
 public class MarketDataPane extends VBox {
 	private ToggleGroup toggleGroup = new ToggleGroup();
-	private TextField symbolTextField = new TextField();
+	private SymbolTextField symbolTextField;
 	private List<DoubleValueToggleButton> priceButtons = new ArrayList<DoubleValueToggleButton>();
 	private MarketData marketData = new MarketData();
 	private MarketDataUpdateService marketDataUpdateService = new MarketDataUpdateService();
@@ -45,10 +44,10 @@ public class MarketDataPane extends VBox {
 		toggleGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
 			@Override
 			public void changed(ObservableValue<? extends Toggle> observableValue, Toggle toggle, Toggle toggle2) {
-				if(toggle2 instanceof MarketDataPane.DoubleValueToggleButton){
+				if (toggle2 instanceof MarketDataPane.DoubleValueToggleButton) {
 					selectedValue.unbind();
 					selectedValue.set(((MarketDataPane.DoubleValueToggleButton) toggle2).getValue());
-				}else if(toggle2 instanceof  MarketDataPane.LabelToggleButton){
+				} else if (toggle2 instanceof MarketDataPane.LabelToggleButton) {
 					selectedValue.unbind();
 					selectedValue.bind(((MarketDataPane.LabelToggleButton) toggle2).valueProperty());
 				}
@@ -73,7 +72,7 @@ public class MarketDataPane extends VBox {
 				}
 			}
 		});
-		marketDataUpdateService.selectedSymbolProperty().bind(symbolTextField.textProperty());
+		marketDataUpdateService.selectedSymbolProperty().bind(symbolTextField.selectedSymbolProperty());
 		marketDataUpdateService.setPeriod(Duration.seconds(5));
 	}
 
@@ -90,9 +89,10 @@ public class MarketDataPane extends VBox {
 	}
 
 	private void initSymbolInputPart() {
-		TextFields.bindAutoCompletion(
-				symbolTextField,
-				"Hey", "Hello", "Hello World", "Apple", "Cool", "Costa", "Cola", "Coca Cola");
+		ArrayList<SecurityData> possibleSecurities = new ArrayList<>();
+		possibleSecurities.add(new SecurityData("600000", "浦发银行"));
+		possibleSecurities.add(new SecurityData("000001", "深发展"));
+		symbolTextField = new SymbolTextField(possibleSecurities);
 		getChildren().add(symbolTextField);
 	}
 
@@ -214,9 +214,9 @@ public class MarketDataPane extends VBox {
 	}
 
 	private void bindMarketDepth(DepthSide depthSide, int depth, LabelToggleButton nameLabel) {
-		if(depthSide== DepthSide.SELL){
+		if (depthSide == DepthSide.SELL) {
 			nameLabel.bind(marketData.askPrice(depth));
-		}else{
+		} else {
 			nameLabel.bind(marketData.bidPrice(depth));
 		}
 	}
@@ -232,7 +232,7 @@ public class MarketDataPane extends VBox {
 		marketData.priceDeltaProperty().addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
-				label.setText(number2.toString());
+				setDoubleText(number2, label);
 			}
 		});
 		gridPane.add(label, 2, 0);
@@ -261,8 +261,7 @@ public class MarketDataPane extends VBox {
 		simpleIntegerProperty.addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
-				priceLabel.setText(number2.toString());
-
+				setIntText(number2, priceLabel);
 			}
 		});
 	}
@@ -271,12 +270,27 @@ public class MarketDataPane extends VBox {
 		simpleDoubleProperty.addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
-				priceLabel.setText(number2.toString());
+				setDoubleText(number2, priceLabel);
 				priceLabel.setValue(number2.doubleValue());
 				changePriceLabelStyle(priceLabel, marketData.getClosePrice(), number2.doubleValue());
-				symbolTextField.setText("" + simpleDoubleProperty.get());
 			}
 		});
+	}
+
+	private void setDoubleText(Number number2, Labeled priceLabel) {
+		if (Math.abs(number2.doubleValue()) < 0.00001) {
+			priceLabel.setText("--");
+			return;
+		}
+		priceLabel.setText(String.format("%.3f", number2.doubleValue()));
+	}
+
+	private void setIntText(Number number2, Labeled priceLabel) {
+		if (number2.intValue() == 0) {
+			priceLabel.setText("--");
+			return;
+		}
+		priceLabel.setText(number2.toString());
 	}
 
 	private LabelToggleButton createLabelToggleButton(String name) {
@@ -345,7 +359,7 @@ public class MarketDataPane extends VBox {
 			super(s);
 		}
 
-		public void bind(SimpleDoubleProperty marketdata){
+		public void bind(SimpleDoubleProperty marketdata) {
 			value.bind(marketdata);
 		}
 

@@ -1,4 +1,4 @@
-package com.hk.framework.ui;
+package com.hk.trade.marketdata;
 
 /**
  * Created by jiangch on 2014/6/24.
