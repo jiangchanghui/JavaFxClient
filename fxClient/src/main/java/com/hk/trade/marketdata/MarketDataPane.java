@@ -17,7 +17,6 @@ import javafx.util.Duration;
 import org.controlsfx.tools.Borders;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by jiangch on 2014/6/23.
@@ -25,9 +24,6 @@ import java.util.List;
 public class MarketDataPane extends VBox {
 	private ToggleGroup toggleGroup = new ToggleGroup();
 	private SymbolTextField symbolTextField;
-	private List<DoubleValueToggleButton> priceButtons = new ArrayList<DoubleValueToggleButton>();
-	private List<Label> askLabels = new ArrayList<>();
-	private List<Label> bidLabels = new ArrayList<>();
 	private MarketData marketData = new MarketData();
 	private MarketDataUpdateService marketDataUpdateService = new MarketDataUpdateService();
 	private SimpleDoubleProperty selectedValue = new SimpleDoubleProperty();
@@ -38,7 +34,6 @@ public class MarketDataPane extends VBox {
 		initSymbolInputPart();
 		initMarketDepthPart();
 		initStaticMarketDataPart();
-		initClosePriceListener();
 		initUpdateService();
 		initSelectedValue();
 	}
@@ -47,12 +42,12 @@ public class MarketDataPane extends VBox {
 		toggleGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
 			@Override
 			public void changed(ObservableValue<? extends Toggle> observableValue, Toggle toggle, Toggle toggle2) {
-				if (toggle2 instanceof MarketDataPane.DoubleValueToggleButton) {
+				if (toggle2 instanceof PriceToggleButton) {
 					selectedValue.unbind();
-					selectedValue.set(((MarketDataPane.DoubleValueToggleButton) toggle2).getValue());
-				} else if (toggle2 instanceof MarketDataPane.LabelToggleButton) {
+					selectedValue.set(((PriceToggleButton) toggle2).getPrice());
+				} else if (toggle2 instanceof TagToggleButton) {
 					selectedValue.unbind();
-					selectedValue.bind(((MarketDataPane.LabelToggleButton) toggle2).valueProperty());
+					selectedValue.bind(((TagToggleButton) toggle2).priceProperty());
 				}
 			}
 		});
@@ -71,24 +66,12 @@ public class MarketDataPane extends VBox {
 			@Override
 			public void changed(ObservableValue<? extends ObservableList<MarketData>> observableValue, ObservableList<MarketData> marketDatas, ObservableList<MarketData> marketDatas2) {
 				if (marketDatas2 != null) {
-					updateMarketData(marketDatas2.get(0));
+					marketData.update(marketDatas2.get(0));
 				}
 			}
 		});
 		marketDataUpdateService.selectedSymbolProperty().bind(symbolTextField.selectedSymbolProperty());
 		marketDataUpdateService.setPeriod(Duration.seconds(5));
-	}
-
-	private void initClosePriceListener() {
-		marketData.closePriceProperty().addListener(new ChangeListener<Number>() {
-			@Override
-			public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
-				for (DoubleValueToggleButton button : priceButtons) {
-					double currentValue = button.getValue();
-					changePriceLabelStyle(button, number2.doubleValue(), currentValue);
-				}
-			}
-		});
 	}
 
 	private void initSymbolInputPart() {
@@ -100,33 +83,28 @@ public class MarketDataPane extends VBox {
 	}
 
 	private void initStaticMarketDataPart() {
-		ColumnConstraints titleColumn = getColumnConstraints(40);
-		titleColumn.setHalignment(HPos.LEFT);
-		ColumnConstraints valueColumn = getColumnConstraints(80);
-		valueColumn.setHalignment(HPos.RIGHT);
-		ColumnConstraints titleColumn2 = getColumnConstraints(40);
-		titleColumn.setHalignment(HPos.LEFT);
-		ColumnConstraints valueColumn2 = getColumnConstraints(60);
-		valueColumn.setHalignment(HPos.RIGHT);
-		addDailyLimitPart(titleColumn, valueColumn, titleColumn2, valueColumn2);
-		addOpenClosePricePart(titleColumn, valueColumn, titleColumn2, valueColumn2);
+		ColumnConstraints titleColumn = getColumnConstraints(40,HPos.LEFT);
+		ColumnConstraints valueColumn = getColumnConstraints(80,HPos.RIGHT);
+		ColumnConstraints valueColumn2 = getColumnConstraints(60,HPos.RIGHT);
+		addDailyLimitPart(titleColumn, valueColumn, titleColumn, valueColumn2);
+		addOpenClosePricePart(titleColumn, valueColumn, titleColumn, valueColumn2);
 	}
 
 	private void addOpenClosePricePart(ColumnConstraints titleColumn, ColumnConstraints valueColumn, ColumnConstraints titleColumn2, ColumnConstraints valueColumn2) {
 		GridPane openClosePriceGridPane = new GridPane();
 		openClosePriceGridPane.setHgap(2);
 		openClosePriceGridPane.getColumnConstraints().addAll(titleColumn, valueColumn, titleColumn2, valueColumn2);
-		LabelToggleButton closePriceLabel = createLabelToggleButton("×òÊÕ");
-		closePriceLabel.bind(marketData.closePriceProperty());
+		TagToggleButton closePriceLabel = new TagToggleButton("×òÊÕ");
+		closePriceLabel.priceProperty().bind(marketData.closePriceProperty());
 		openClosePriceGridPane.add(closePriceLabel, 0, 0);
-		DoubleValueToggleButton closePriceValue = createValueToggleButton();
+		PriceToggleButton closePriceValue = new PriceToggleButton();
 		openClosePriceGridPane.add(closePriceValue, 1, 0);
-		addMarketPriceListener(marketData.closePriceProperty(), closePriceValue);
-		LabelToggleButton openPriceLabel = createLabelToggleButton("½ñ¿ª");
-		openPriceLabel.bind(marketData.openPriceProperty());
+		bindMarketPrice(closePriceValue, marketData.closePriceProperty(), marketData.closePriceProperty());
+		TagToggleButton openPriceLabel = new TagToggleButton("½ñ¿ª");
+		openPriceLabel.priceProperty().bind(marketData.openPriceProperty());
 		openClosePriceGridPane.add(openPriceLabel, 2, 0);
-		DoubleValueToggleButton openPriceValue = createValueToggleButton();
-		addMarketPriceListener(marketData.openPriceProperty(), openPriceValue);
+		PriceToggleButton openPriceValue = new PriceToggleButton();
+		bindMarketPrice(openPriceValue, marketData.openPriceProperty(), marketData.closePriceProperty());
 		openClosePriceGridPane.add(openPriceValue, 3, 0);
 		toggleGroup.getToggles().addAll(closePriceLabel, closePriceValue, openPriceLabel, openPriceValue);
 		getChildren().add(Borders.wrap(openClosePriceGridPane).lineBorder().color(Color.GRAY).innerPadding(0).outerPadding(0).thickness(0, 1, 0, 1).buildAll());
@@ -136,18 +114,18 @@ public class MarketDataPane extends VBox {
 		GridPane dailyLimitGridPane = new GridPane();
 		dailyLimitGridPane.setHgap(2);
 		dailyLimitGridPane.getColumnConstraints().addAll(titleColumn, valueColumn, titleColumn2, valueColumn2);
-		LabelToggleButton nameLabel = createLabelToggleButton("ÕÇÍ£");
-		nameLabel.bind(marketData.dailyUpLimitPriceProperty());
+		TagToggleButton nameLabel = new TagToggleButton("ÕÇÍ£");
+		nameLabel.priceProperty().bind(marketData.dailyUpLimitPriceProperty());
 		dailyLimitGridPane.add(nameLabel, 0, 0);
-		DoubleValueToggleButton priceLabel = createValueToggleButton();
-		addMarketPriceListener(marketData.dailyUpLimitPriceProperty(), priceLabel);
+		PriceToggleButton priceLabel = new PriceToggleButton();
+		bindMarketPrice(priceLabel, marketData.dailyUpLimitPriceProperty(), marketData.closePriceProperty());
 		dailyLimitGridPane.add(priceLabel, 1, 0);
 
-		LabelToggleButton nameLabel2 = createLabelToggleButton("µøÍ£");
-		nameLabel2.bind(marketData.dailyDownLimitPriceProperty());
+		TagToggleButton nameLabel2 = new TagToggleButton("µøÍ£");
+		nameLabel2.priceProperty().bind(marketData.dailyDownLimitPriceProperty());
 		dailyLimitGridPane.add(nameLabel2, 2, 0);
-		DoubleValueToggleButton priceLabel2 = createValueToggleButton();
-		addMarketPriceListener(marketData.dailyDownLimitPriceProperty(), priceLabel2);
+		PriceToggleButton priceLabel2 = new PriceToggleButton();
+		bindMarketPrice(priceLabel2, marketData.dailyDownLimitPriceProperty(), marketData.closePriceProperty());
 
 		dailyLimitGridPane.add(priceLabel2, 3, 0);
 		toggleGroup.getToggles().addAll(nameLabel, priceLabel);
@@ -156,12 +134,9 @@ public class MarketDataPane extends VBox {
 	}
 
 	private void initMarketDepthPart() {
-		ColumnConstraints firstColumn = getColumnConstraints(40);
-		firstColumn.setHalignment(HPos.LEFT);
-		ColumnConstraints secondColumn = getColumnConstraints(80);
-		secondColumn.setHalignment(HPos.RIGHT);
-		ColumnConstraints lastColumn = getColumnConstraints(100);
-		lastColumn.setHalignment(HPos.RIGHT);
+		ColumnConstraints firstColumn = getColumnConstraints(40,HPos.LEFT);
+		ColumnConstraints secondColumn = getColumnConstraints(80,HPos.RIGHT);
+		ColumnConstraints lastColumn = getColumnConstraints(100,HPos.RIGHT);
 
 		GridPane sellDepthGridPane = getGridPane(firstColumn, secondColumn, lastColumn);
 		addMarketDepthPart(sellDepthGridPane, "Âô¢Ý", 0, DepthSide.SELL, 4);
@@ -196,253 +171,85 @@ public class MarketDataPane extends VBox {
 		return buyDepthGridPane;
 	}
 
-	private ColumnConstraints getColumnConstraints(int minWidth) {
+	private ColumnConstraints getColumnConstraints(int minWidth,HPos pos) {
 		ColumnConstraints lastColumn = new ColumnConstraints();
 		lastColumn.setMinWidth(minWidth);
 		lastColumn.setHgrow(Priority.SOMETIMES);
+		lastColumn.setHalignment(pos);
 		return lastColumn;
 	}
 
 	private void addMarketDepthPart(GridPane gridPane, String name, int rowNum, DepthSide depthSide, int depth) {
-		LabelToggleButton nameLabel = createLabelToggleButton(name);
+		TagToggleButton nameLabel = new TagToggleButton(name);
 		bindMarketDepth(depthSide, depth, nameLabel);
 		gridPane.add(nameLabel, 0, rowNum);
-		DoubleValueToggleButton priceLabel = createValueToggleButton();
+		PriceToggleButton priceLabel = new PriceToggleButton();
 		gridPane.add(priceLabel, 1, rowNum);
-		addDepthListener(priceLabel, depthSide, depth, DepthType.PRICE);
+		bindMarketDepthPrice(priceLabel, depthSide, depth);
 		VolumeLabel label = new VolumeLabel(depthSide);
-		addDepthListener(label, depthSide, depth, DepthType.VOLUME);
+		bindMarketDepthVolume(label, depthSide, depth);
 		gridPane.add(label, 2, rowNum);
 		toggleGroup.getToggles().addAll(nameLabel, priceLabel);
 	}
 
-	private void addLabelToList(DepthSide depthSide, Label label) {
-		if(DepthSide.SELL == depthSide){
-			askLabels.add(label);
-		}else{
-			bidLabels.add(label);
-		}
-	}
 
-	private void bindMarketDepth(DepthSide depthSide, int depth, LabelToggleButton nameLabel) {
-		if (depthSide == DepthSide.SELL) {
-			nameLabel.bind(marketData.askPrice(depth));
-		} else {
-			nameLabel.bind(marketData.bidPrice(depth));
-		}
-	}
 
 	private void addLatestPricePart(GridPane gridPane, String name) {
-		LabelToggleButton nameLabel = createLabelToggleButton(name);
-		nameLabel.bind(marketData.latestPriceProperty());
+		TagToggleButton nameLabel = new TagToggleButton(name);
+		nameLabel.priceProperty().bind(marketData.latestPriceProperty());
 		gridPane.add(nameLabel, 0, 0);
-		DoubleValueToggleButton priceLabel = createValueToggleButton();
+		PriceToggleButton priceLabel = new PriceToggleButton();
 		gridPane.add(priceLabel, 1, 0);
-		addMarketPriceListener(marketData.latestPriceProperty(), priceLabel);
-		Label label = createVolumeLabel();
-
+		bindMarketPrice(priceLabel, marketData.latestPriceProperty(), marketData.closePriceProperty());
+		Label label1 = new Label("--");
+		label1.setAlignment(Pos.CENTER_RIGHT);
 		marketData.priceDeltaProperty().addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
-				setDoubleText(number2, label);
+				label1.setText(PriceToggleButton.formatText(number2.doubleValue()));
 			}
 		});
-		gridPane.add(label, 2, 0);
+		gridPane.add(label1, 2, 0);
 		toggleGroup.getToggles().addAll(nameLabel, priceLabel);
 		nameLabel.styleProperty().bind(priceLabel.styleProperty());
-		label.styleProperty().bind(priceLabel.styleProperty());
+		label1.styleProperty().bind(priceLabel.styleProperty());
 	}
 
-	private Label createVolumeLabel() {
-		Label label = new Label("--");
-		label.setAlignment(Pos.CENTER_RIGHT);
-		return label;
-	}
-
-	private void addDepthListener(final Labeled priceLabel, DepthSide depthSide, int depth, DepthType depthType) {
-		if (depthType == DepthType.PRICE) {
-			if (depthSide == DepthSide.SELL) {
-				addMarketPriceListener(marketData.askPrice(depth), (DoubleValueToggleButton) priceLabel);
-			} else {
-				addMarketPriceListener(marketData.bidPrice(depth), (DoubleValueToggleButton) priceLabel);
-			}
+	private void bindMarketDepthVolume(VolumeLabel priceLabel, DepthSide depthSide, int depth) {
+		if (depthSide == DepthSide.SELL) {
+			bindMarketVolume(priceLabel, marketData.askVolume(depth), marketData.maxAskVolumeProperty());
 		} else {
-			if (depthSide == DepthSide.SELL) {
-				addMarketVolumeListener((VolumeLabel) priceLabel, marketData.askVolume(depth),marketData.maxAskVolumeProperty());
-			} else {
-				addMarketVolumeListener((VolumeLabel) priceLabel, marketData.bidVolume(depth),marketData.maxBidVolumeProperty());
-			}
+			bindMarketVolume(priceLabel, marketData.bidVolume(depth), marketData.maxBidVolumeProperty());
 		}
 	}
 
-	private void addMarketVolumeListener(final VolumeLabel priceLabel, SimpleIntegerProperty value, SimpleIntegerProperty max) {
+	private void bindMarketDepth(DepthSide depthSide, int depth, TagToggleButton nameLabel) {
+		if (depthSide == DepthSide.SELL) {
+			nameLabel.priceProperty().bind(marketData.askPrice(depth));
+		} else {
+			nameLabel.priceProperty().bind(marketData.bidPrice(depth));
+		}
+	}
+
+	private void bindMarketDepthPrice(PriceToggleButton priceLabel, DepthSide depthSide, int depth) {
+		if (depthSide == DepthSide.SELL) {
+			bindMarketPrice(priceLabel, marketData.askPrice(depth), marketData.closePriceProperty());
+		} else {
+			bindMarketPrice(priceLabel, marketData.bidPrice(depth), marketData.closePriceProperty());
+		}
+	}
+
+	private void bindMarketVolume(final VolumeLabel priceLabel, SimpleIntegerProperty value, SimpleIntegerProperty max) {
 		priceLabel.valueProperty().bind(value);
 		priceLabel.maxProperty().bind(max);
 	}
 
-	private void addMarketPriceListener(SimpleDoubleProperty simpleDoubleProperty, final DoubleValueToggleButton priceLabel) {
-		simpleDoubleProperty.addListener(new ChangeListener<Number>() {
-			@Override
-			public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
-				setDoubleText(number2, priceLabel);
-				priceLabel.setValue(number2.doubleValue());
-				changePriceLabelStyle(priceLabel, marketData.getClosePrice(), number2.doubleValue());
-			}
-		});
-	}
-
-	private void setDoubleText(Number number2, Labeled priceLabel) {
-		if (Math.abs(number2.doubleValue()) < 0.00001) {
-			priceLabel.setText("--");
-			return;
-		}
-		priceLabel.setText(String.format("%.3f", number2.doubleValue()));
-	}
-
-	private LabelToggleButton createLabelToggleButton(String name) {
-		LabelToggleButton toggleButton = new LabelToggleButton(name);
-		toggleButton.getStyleClass().add("market-data-button");
-		return toggleButton;
-	}
-
-	private DoubleValueToggleButton createValueToggleButton() {
-		DoubleValueToggleButton toggleButton = new DoubleValueToggleButton("--");
-		toggleButton.getStyleClass().add("market-data-button");
-		priceButtons.add(toggleButton);
-		return toggleButton;
-	}
-
-	private void changePriceLabelStyle(Labeled priceLabel, double closePrice, double price) {
-		int result = Double.compare(closePrice, price);
-		switch (result) {
-			case 1:
-				priceLabel.setStyle("-fx-text-fill: GREEN");
-				break;
-			case -1:
-				priceLabel.setStyle("-fx-text-fill: RED");
-				break;
-			case 0:
-				priceLabel.setStyle("");
-				break;
-		}
-	}
-
-	public void updateMarketData(MarketData marketData) {
-		this.marketData.update(marketData);
+	private void bindMarketPrice(PriceToggleButton priceToggleButton, SimpleDoubleProperty price, SimpleDoubleProperty closePrice) {
+		priceToggleButton.priceProperty().bind(price);
+		priceToggleButton.closePriceProperty().bind(closePrice);
 	}
 
 	enum DepthSide {
 		SELL, BUY
-	}
-
-	enum DepthType {
-		PRICE, VOLUME
-	}
-
-	class DoubleValueToggleButton extends ToggleButton {
-
-		private double value;
-
-		DoubleValueToggleButton(String s) {
-			super(s);
-			this.value = 0.0;
-		}
-
-		public double getValue() {
-			return value;
-		}
-
-		public void setValue(double value) {
-			this.value = value;
-		}
-	}
-
-	class LabelToggleButton extends ToggleButton {
-
-		private SimpleDoubleProperty value = new SimpleDoubleProperty();
-
-		LabelToggleButton(String s) {
-			super(s);
-		}
-
-		public void bind(SimpleDoubleProperty marketdata) {
-			value.bind(marketdata);
-		}
-
-		public double getValue() {
-			return value.get();
-		}
-
-		public SimpleDoubleProperty valueProperty() {
-			return value;
-		}
-	}
-
-	class VolumeLabel extends  Label{
-		private SimpleIntegerProperty value = new SimpleIntegerProperty();
-		private SimpleIntegerProperty max=new SimpleIntegerProperty();
-		private DepthSide depthSide;
-
-		public VolumeLabel(DepthSide depthSide){
-			super();
-			setText("--");
-			this.depthSide = depthSide;
-			setAlignment(Pos.CENTER_RIGHT);
-			value.addListener(new ChangeListener<Number>() {
-				@Override
-				public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
-					updateText(number2);
-					updateColorBar();
-				}
-
-
-			});
-			max.addListener(new ChangeListener<Number>() {
-				@Override
-				public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
-					updateColorBar();
-				}
-			});
-		}
-
-		private void updateText(Number number2) {
-			if(number2.intValue()==0){
-				setText("--");
-			}else{
-				setText(number2.toString());
-			}
-		}
-		public void updateColorBar(){
-			if(value.intValue() ==0){
-				setMinWidth(20);
-				setStyle("");
-				return;
-			}
-			setMinWidth(20 + 60.0 * value.intValue() / max.getValue());
-			if(depthSide == DepthSide.SELL) {
-				setStyle("-fx-background-color: #ffebeb");
-			}else{
-				setStyle("-fx-background-color: #ecfff8");
-			}
-		}
-		public int getValue() {
-			return value.get();
-		}
-
-		public SimpleIntegerProperty valueProperty() {
-			return value;
-		}
-
-		public int getMax() {
-			return max.get();
-		}
-
-		public SimpleIntegerProperty maxProperty() {
-			return max;
-		}
-
-		public void setMax(int max) {
-			this.max.set(max);
-		}
 	}
 }

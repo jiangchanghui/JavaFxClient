@@ -71,7 +71,7 @@ public class MarketDataUpdateService extends ScheduledService<ObservableList<Mar
 				marketData.setBidPrice(4-i, tmpDoubleVolume.get(i));
 				marketData.setBidVolume(i, nextInt());
 			}
-			marketData.setLatestPrice(tmpDoubleVolume.get(5)-0.0001);
+			marketData.setLatestPrice(tmpDoubleVolume.get(5)-0.002);
 			marketData.setClosePrice(BigDecimal.valueOf(tmpDoubleVolume.get(4)+random.nextDouble()).setScale(3,BigDecimal.ROUND_CEILING).doubleValue());
 			marketData.setOpenPrice(BigDecimal.valueOf(tmpDoubleVolume.get(4)+random.nextDouble()).setScale(3,BigDecimal.ROUND_CEILING).doubleValue());
 			marketData.setDailyDownLimitPrice(marketData.getClosePrice()*0.9);
