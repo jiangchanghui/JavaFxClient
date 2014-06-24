@@ -17,6 +17,8 @@ public class MarketData  {
 	private MarketDepth[] bids = new MarketDepth[MAX_DEPTH];
 	private SimpleDoubleProperty dailyUpLimitPrice = new SimpleDoubleProperty();
 	private SimpleDoubleProperty dailyDownLimitPrice = new SimpleDoubleProperty();
+	private SimpleIntegerProperty maxAskVolume = new SimpleIntegerProperty(1);
+	private SimpleIntegerProperty maxBidVolume = new SimpleIntegerProperty(1);
 
 	public MarketData(){
 		for (int i = 0; i < MAX_DEPTH; i++) {
@@ -65,11 +67,15 @@ public class MarketData  {
 
 	public int getAskVolume(int depth) {
 		validate(depth);
+
 		return asks[depth].getVolume();
 	}
 
 	public void setAskVolume(int depth, int volume) {
 		validate(depth);
+		if(volume>maxAskVolume.get()){
+			maxAskVolume.set(volume);
+		}
 		asks[depth].setVolume(volume);
 	}
 
@@ -100,6 +106,9 @@ public class MarketData  {
 
 	public void setBidVolume(int depth, int volume) {
 		validate(depth);
+		if(volume>maxBidVolume.get()){
+			maxBidVolume.set(volume);
+		}
 		bids[depth].setVolume(volume);
 	}
 
@@ -154,6 +163,30 @@ public class MarketData  {
 
 	public void setDailyDownLimitPrice(double dailyDownLimitPrice) {
 		this.dailyDownLimitPrice.set(dailyDownLimitPrice);
+	}
+
+	public int getMaxAskVolume() {
+		return maxAskVolume.get();
+	}
+
+	public SimpleIntegerProperty maxAskVolumeProperty() {
+		return maxAskVolume;
+	}
+
+	public void setMaxAskVolume(int maxAskVolume) {
+		this.maxAskVolume.set(maxAskVolume);
+	}
+
+	public int getMaxBidVolume() {
+		return maxBidVolume.get();
+	}
+
+	public SimpleIntegerProperty maxBidVolumeProperty() {
+		return maxBidVolume;
+	}
+
+	public void setMaxBidVolume(int maxBidVolume) {
+		this.maxBidVolume.set(maxBidVolume);
 	}
 
 	private void validate(int depth) {

@@ -6,6 +6,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -25,6 +26,8 @@ public class MarketDataPane extends VBox {
 	private ToggleGroup toggleGroup = new ToggleGroup();
 	private SymbolTextField symbolTextField;
 	private List<DoubleValueToggleButton> priceButtons = new ArrayList<DoubleValueToggleButton>();
+	private List<Label> askLabels = new ArrayList<>();
+	private List<Label> bidLabels = new ArrayList<>();
 	private MarketData marketData = new MarketData();
 	private MarketDataUpdateService marketDataUpdateService = new MarketDataUpdateService();
 	private SimpleDoubleProperty selectedValue = new SimpleDoubleProperty();
@@ -207,10 +210,18 @@ public class MarketDataPane extends VBox {
 		DoubleValueToggleButton priceLabel = createValueToggleButton();
 		gridPane.add(priceLabel, 1, rowNum);
 		addDepthListener(priceLabel, depthSide, depth, DepthType.PRICE);
-		Label label = new Label("--");
+		VolumeLabel label = new VolumeLabel(depthSide);
 		addDepthListener(label, depthSide, depth, DepthType.VOLUME);
 		gridPane.add(label, 2, rowNum);
 		toggleGroup.getToggles().addAll(nameLabel, priceLabel);
+	}
+
+	private void addLabelToList(DepthSide depthSide, Label label) {
+		if(DepthSide.SELL == depthSide){
+			askLabels.add(label);
+		}else{
+			bidLabels.add(label);
+		}
 	}
 
 	private void bindMarketDepth(DepthSide depthSide, int depth, LabelToggleButton nameLabel) {
@@ -228,7 +239,8 @@ public class MarketDataPane extends VBox {
 		DoubleValueToggleButton priceLabel = createValueToggleButton();
 		gridPane.add(priceLabel, 1, 0);
 		addMarketPriceListener(marketData.latestPriceProperty(), priceLabel);
-		Label label = new Label("--");
+		Label label = createVolumeLabel();
+
 		marketData.priceDeltaProperty().addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
@@ -241,6 +253,12 @@ public class MarketDataPane extends VBox {
 		label.styleProperty().bind(priceLabel.styleProperty());
 	}
 
+	private Label createVolumeLabel() {
+		Label label = new Label("--");
+		label.setAlignment(Pos.CENTER_RIGHT);
+		return label;
+	}
+
 	private void addDepthListener(final Labeled priceLabel, DepthSide depthSide, int depth, DepthType depthType) {
 		if (depthType == DepthType.PRICE) {
 			if (depthSide == DepthSide.SELL) {
@@ -250,20 +268,16 @@ public class MarketDataPane extends VBox {
 			}
 		} else {
 			if (depthSide == DepthSide.SELL) {
-				addMarketVolumeListener(priceLabel, depthType, marketData.askVolume(depth));
+				addMarketVolumeListener((VolumeLabel) priceLabel, marketData.askVolume(depth),marketData.maxAskVolumeProperty());
 			} else {
-				addMarketVolumeListener(priceLabel, depthType, marketData.bidVolume(depth));
+				addMarketVolumeListener((VolumeLabel) priceLabel, marketData.bidVolume(depth),marketData.maxBidVolumeProperty());
 			}
 		}
 	}
 
-	private void addMarketVolumeListener(final Labeled priceLabel, final DepthType depthType, SimpleIntegerProperty simpleIntegerProperty) {
-		simpleIntegerProperty.addListener(new ChangeListener<Number>() {
-			@Override
-			public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
-				setIntText(number2, priceLabel);
-			}
-		});
+	private void addMarketVolumeListener(final VolumeLabel priceLabel, SimpleIntegerProperty value, SimpleIntegerProperty max) {
+		priceLabel.valueProperty().bind(value);
+		priceLabel.maxProperty().bind(max);
 	}
 
 	private void addMarketPriceListener(SimpleDoubleProperty simpleDoubleProperty, final DoubleValueToggleButton priceLabel) {
@@ -283,14 +297,6 @@ public class MarketDataPane extends VBox {
 			return;
 		}
 		priceLabel.setText(String.format("%.3f", number2.doubleValue()));
-	}
-
-	private void setIntText(Number number2, Labeled priceLabel) {
-		if (number2.intValue() == 0) {
-			priceLabel.setText("--");
-			return;
-		}
-		priceLabel.setText(number2.toString());
 	}
 
 	private LabelToggleButton createLabelToggleButton(String name) {
@@ -369,6 +375,74 @@ public class MarketDataPane extends VBox {
 
 		public SimpleDoubleProperty valueProperty() {
 			return value;
+		}
+	}
+
+	class VolumeLabel extends  Label{
+		private SimpleIntegerProperty value = new SimpleIntegerProperty();
+		private SimpleIntegerProperty max=new SimpleIntegerProperty();
+		private DepthSide depthSide;
+
+		public VolumeLabel(DepthSide depthSide){
+			super();
+			setText("--");
+			this.depthSide = depthSide;
+			setAlignment(Pos.CENTER_RIGHT);
+			value.addListener(new ChangeListener<Number>() {
+				@Override
+				public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
+					updateText(number2);
+					updateColorBar();
+				}
+
+
+			});
+			max.addListener(new ChangeListener<Number>() {
+				@Override
+				public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
+					updateColorBar();
+				}
+			});
+		}
+
+		private void updateText(Number number2) {
+			if(number2.intValue()==0){
+				setText("--");
+			}else{
+				setText(number2.toString());
+			}
+		}
+		public void updateColorBar(){
+			if(value.intValue() ==0){
+				setMinWidth(20);
+				setStyle("");
+				return;
+			}
+			setMinWidth(20 + 60.0 * value.intValue() / max.getValue());
+			if(depthSide == DepthSide.SELL) {
+				setStyle("-fx-background-color: #ffebeb");
+			}else{
+				setStyle("-fx-background-color: #ecfff8");
+			}
+		}
+		public int getValue() {
+			return value.get();
+		}
+
+		public SimpleIntegerProperty valueProperty() {
+			return value;
+		}
+
+		public int getMax() {
+			return max.get();
+		}
+
+		public SimpleIntegerProperty maxProperty() {
+			return max;
+		}
+
+		public void setMax(int max) {
+			this.max.set(max);
 		}
 	}
 }

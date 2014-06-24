@@ -9,6 +9,9 @@ import javafx.concurrent.Task;
 import org.apache.commons.lang.StringUtils;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -48,18 +51,32 @@ public class MarketDataUpdateService extends ScheduledService<ObservableList<Mar
 		}
 
 		private void updateMarketData() {
-			marketData.setClosePrice(nextDouble());
-			marketData.setOpenPrice(nextDouble());
-			marketData.setDailyDownLimitPrice(nextDouble());
-			marketData.setDailyUpLimitPrice(nextDouble());
-			marketData.setLatestPrice(nextDouble());
-			for (int i = 0; i < 5; i++) {
-				marketData.setAskPrice(i, nextDouble());
+
+			List<Integer> tmpIntVolume = new ArrayList<>(10);
+			List<Double> tmpDoubleVolume = new ArrayList<>(10);
+			for (int i = 0; i < 10; i++) {
+				tmpIntVolume.add(nextInt());
+				tmpDoubleVolume.add(nextDouble());
+
+			}
+			tmpDoubleVolume.sort(new Comparator<Double>() {
+				@Override
+				public int compare(Double o1, Double o2) {
+					return Double.compare(o1,o2);
+				}
+			});
+			for(int i=0;i<5;i++){
+				marketData.setAskPrice(i, tmpDoubleVolume.get(i+5));
 				marketData.setAskVolume(i, nextInt());
-				marketData.setBidPrice(i, nextDouble());
+				marketData.setBidPrice(4-i, tmpDoubleVolume.get(i));
 				marketData.setBidVolume(i, nextInt());
 			}
-			marketData.setPriceDelta(BigDecimal.valueOf(marketData.getLatestPrice()-marketData.getClosePrice()).setScale(3,BigDecimal.ROUND_DOWN).doubleValue());
+			marketData.setLatestPrice(tmpDoubleVolume.get(5)-0.0001);
+			marketData.setClosePrice(BigDecimal.valueOf(tmpDoubleVolume.get(4)+random.nextDouble()).setScale(3,BigDecimal.ROUND_CEILING).doubleValue());
+			marketData.setOpenPrice(BigDecimal.valueOf(tmpDoubleVolume.get(4)+random.nextDouble()).setScale(3,BigDecimal.ROUND_CEILING).doubleValue());
+			marketData.setDailyDownLimitPrice(marketData.getClosePrice()*0.9);
+			marketData.setDailyUpLimitPrice(marketData.getClosePrice()*1.1);
+			marketData.setPriceDelta(BigDecimal.valueOf(marketData.getLatestPrice() - marketData.getClosePrice()).setScale(3, BigDecimal.ROUND_DOWN).doubleValue());
 		}
 
 		private int nextInt() {
