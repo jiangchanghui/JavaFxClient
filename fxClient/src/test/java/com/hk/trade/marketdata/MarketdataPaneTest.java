@@ -26,20 +26,8 @@ public class MarketdataPaneTest extends Application {
 		Scene scene = new Scene(marketDataPane);
 		stage.setScene(scene);
 		stage.show();
-		SimpleDoubleProperty value = new SimpleDoubleProperty();
-		marketDataPane.getToggleGroup().selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
-			@Override
-			public void changed(ObservableValue<? extends Toggle> observableValue, Toggle toggle, Toggle toggle2) {
-				if(toggle2 instanceof MarketDataPane.DoubleValueToggleButton){
-					value.unbind();
-					value.set(((MarketDataPane.DoubleValueToggleButton) toggle2).getValue());
-				}else if(toggle2 instanceof  MarketDataPane.LabelToggleButton){
-					value.unbind();
-					value.bind(((MarketDataPane.LabelToggleButton) toggle2).valueProperty());
-				}
-			}
-		});
-		value.addListener(new ChangeListener<Number>() {
+
+		marketDataPane.selectedValueProperty().addListener(new ChangeListener<Number>() {
 			@Override
 			public void changed(ObservableValue<? extends Number> observableValue, Number number, Number number2) {
 				System.out.println(number2.doubleValue());

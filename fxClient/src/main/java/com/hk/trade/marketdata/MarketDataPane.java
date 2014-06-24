@@ -28,6 +28,7 @@ public class MarketDataPane extends VBox {
 	private List<DoubleValueToggleButton> priceButtons = new ArrayList<DoubleValueToggleButton>();
 	private MarketData marketData = new MarketData();
 	private MarketDataUpdateService marketDataUpdateService = new MarketDataUpdateService();
+	private SimpleDoubleProperty selectedValue = new SimpleDoubleProperty();
 
 	public MarketDataPane() {
 		super();
@@ -37,10 +38,26 @@ public class MarketDataPane extends VBox {
 		initStaticMarketDataPart();
 		initClosePriceListener();
 		initUpdateService();
+		initSelectedValue();
 	}
 
-	public ToggleGroup getToggleGroup() {
-		return toggleGroup;
+	private void initSelectedValue() {
+		toggleGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+			@Override
+			public void changed(ObservableValue<? extends Toggle> observableValue, Toggle toggle, Toggle toggle2) {
+				if(toggle2 instanceof MarketDataPane.DoubleValueToggleButton){
+					selectedValue.unbind();
+					selectedValue.set(((MarketDataPane.DoubleValueToggleButton) toggle2).getValue());
+				}else if(toggle2 instanceof  MarketDataPane.LabelToggleButton){
+					selectedValue.unbind();
+					selectedValue.bind(((MarketDataPane.LabelToggleButton) toggle2).valueProperty());
+				}
+			}
+		});
+	}
+
+	public SimpleDoubleProperty selectedValueProperty() {
+		return selectedValue;
 	}
 
 	private void addCss() {
