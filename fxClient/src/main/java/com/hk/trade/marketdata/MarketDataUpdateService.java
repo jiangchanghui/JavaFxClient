@@ -35,7 +35,6 @@ public class MarketDataUpdateService extends ScheduledService<ObservableList<Mar
 
 		@Override
 		protected ObservableList<MarketData> call() throws Exception {
-			System.out.println(getSelectedSymbol());
 			updateMarketData();
 			ObservableList<MarketData> marketDatas = FXCollections.observableArrayList();
 			marketDatas.add(marketData);
