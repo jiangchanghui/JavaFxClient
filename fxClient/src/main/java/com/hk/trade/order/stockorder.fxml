@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="WxTmp">
+   <children>
+      <HBox layoutX="90.0" layoutY="14.0" prefHeight="20.0" prefWidth="200.0" style="-fx-base: RGB(217,234,246); -fx-background-color: linear-gradient(to bottom right, -fx-base, white);" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label alignment="CENTER_RIGHT" onMouseClicked="#toDo" prefHeight="15.0" prefWidth="62.0" text="下指令" fx:id="xx" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
