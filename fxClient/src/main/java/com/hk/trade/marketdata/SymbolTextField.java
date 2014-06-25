@@ -23,6 +23,7 @@ public class SymbolTextField extends CustomTextField {
 	private SimpleStringProperty selectedSymbol = new SimpleStringProperty();
 	private Label rightLabel = new Label();
 	public SymbolTextField(List<SecurityData> possibleSecurities) {
+		setPromptText(" ‰»Î÷§»Ø¥˙¬Î");
 		SecuritySuggestionProvider securitySuggestionProvider = new SecuritySuggestionProvider();
 		securitySuggestionProvider.addPossibleSuggestions(possibleSecurities);
 		new AutoCompletionCustomTextFieldBinding(this, securitySuggestionProvider);
@@ -65,19 +66,6 @@ public class SymbolTextField extends CustomTextField {
 
 	public void updateRightLabel(String name){
 		this.rightLabel.setText(name);
-	}
-
-	class SecurityDataConverter extends StringConverter<SecurityData>{
-
-		@Override
-		public String toString(SecurityData securityData) {
-			return securityData.getSymbol();
-		}
-
-		@Override
-		public SecurityData fromString(String s) {
-			return null;
-		}
 	}
 
 	class SecuritySuggestionProvider extends SuggestionProvider<SecurityData> {
