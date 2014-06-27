@@ -24,7 +24,7 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package com.hk.framework.ui;
+package com.hk.framework.ui.undecorator;
 
 import javafx.scene.Scene;
 import javafx.scene.layout.Region;
@@ -37,8 +37,8 @@ import javafx.stage.StageStyle;
  */
 public class UndecoratorScene extends Scene {
 
-	static public final String DEFAULT_STYLESHEET = "/com/hk/framework/ui/skin/undecorator.css";
-	static public final String DEFAULT_STYLESHEET_UTILITY = "/com/hk/framework/ui/skin/undecoratorUtilityStage.css";
+	static public final String DEFAULT_STYLESHEET = "/com/hk/framework/ui/undecorator/skin/undecorator.css";
+	static public final String DEFAULT_STYLESHEET_UTILITY = "/com/hk/framework/ui/undecorator/skin/undecoratorUtilityStage.css";
 	static public final String DEFAULT_STAGEDECORATION = "stagedecoration.fxml";
 	static public final String DEFAULT_STAGEDECORATION_UTILITY = "stageUtilityDecoration.fxml";
 	Undecorator undecorator;

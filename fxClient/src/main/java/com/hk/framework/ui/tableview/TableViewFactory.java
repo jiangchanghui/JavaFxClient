@@ -1,6 +1,5 @@
-package com.hk.trade.ui;
+package com.hk.framework.ui.tableview;
 
-import com.hk.trade.TableColumnName;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;

@@ -4,6 +4,8 @@
  */
 package com.hk.framework.ui;
 
+import com.hk.framework.ui.undecorator.Undecorator;
+import com.hk.framework.ui.undecorator.UndecoratorScene;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

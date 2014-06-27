@@ -1,6 +1,6 @@
 package com.hk.trade.order;
 
-import com.hk.trade.TableColumnName;
+import com.hk.framework.ui.tableview.TableColumnName;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 

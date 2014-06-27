@@ -1,4 +1,4 @@
-package com.hk.framework.ui;
+package com.hk.framework.ui.undecorator;
 
 import javafx.animation.*;
 import javafx.application.*;
@@ -19,7 +19,6 @@ import javafx.stage.*;
 import javafx.util.*;
 import org.slf4j.*;
 
-import java.io.*;
 import java.net.*;
 import java.util.*;
 
@@ -133,7 +132,7 @@ public class Undecorator extends StackPane {
 			LOGGER.error("Decorations not found", ex);
 		}
 
-		getStylesheets().add("/com/hk/framework/ui/skin/undecorator.css");
+		getStylesheets().add("/com/hk/framework/ui/undecorator/skin/undecorator.css");
 		setButtonsVisible();
 		maximizeActionSetting();
 		fullScreenActionSetting();

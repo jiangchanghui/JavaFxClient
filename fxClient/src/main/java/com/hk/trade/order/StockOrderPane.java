@@ -1,7 +1,6 @@
 package com.hk.trade.order;
 
-import com.hk.framework.FxmlLoadUtils;
-import com.hk.trade.ui.TitledWindow;
+import com.hk.framework.ui.titledwindow.TitledWindow;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;

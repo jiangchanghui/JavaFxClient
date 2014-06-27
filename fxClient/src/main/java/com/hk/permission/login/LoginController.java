@@ -107,7 +107,11 @@ public class LoginController extends JavaFxController {
 		loginService.exceptionProperty().addListener(new ChangeListener<Throwable>() {
 			@Override
 			public void changed(ObservableValue<? extends Throwable> observableValue, Throwable throwable, Throwable throwable2) {
-				loginErrorMessage.setText(throwable2.getMessage());
+				if(throwable2==null){
+					loginErrorMessage.setText("");
+				}else {
+					loginErrorMessage.setText(throwable2.getMessage());
+				}
 			}
 		});
 		loginService.valueProperty().addListener(new ChangeListener<ObservableList<LoginResult>>() {

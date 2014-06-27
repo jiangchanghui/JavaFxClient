@@ -72,7 +72,7 @@ public class LoginService extends Service<ObservableList<LoginResult>> {
 		}
 
 		private boolean mockUser(String account) {
-			return "admin".equalsIgnoreCase(account);
+			return "jiangch".equalsIgnoreCase(account);
 		}
 	}
 }

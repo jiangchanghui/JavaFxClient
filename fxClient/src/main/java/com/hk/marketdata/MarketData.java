@@ -1,8 +1,7 @@
-package com.hk.trade.marketdata;
+package com.hk.marketdata;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import org.omg.CORBA.MARSHAL;
 
 /**
  * Created by jiangch on 2014/6/23.

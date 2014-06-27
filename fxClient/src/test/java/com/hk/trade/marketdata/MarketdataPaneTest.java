@@ -1,18 +1,11 @@
 package com.hk.trade.marketdata;
 
+import com.hk.marketdata.MarketDataPane;
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
-import javafx.concurrent.Worker;
 import javafx.scene.Scene;
-import javafx.scene.control.Toggle;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-
-import java.util.Random;
 
 /**
  * Created by jiangch on 2014/6/23.

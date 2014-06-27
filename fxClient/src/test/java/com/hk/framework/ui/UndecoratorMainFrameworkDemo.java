@@ -1,12 +1,11 @@
 package com.hk.framework.ui;
 
+import com.hk.framework.ui.undecorator.Undecorator;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -29,7 +28,7 @@ public class UndecoratorMainFrameworkDemo extends Application {
         // The UI (Client Area) to display
         Region root = null;
         try {
-            URL fxml = getClass().getResource("/com/hk/trade/mainframe.fxml");
+            URL fxml = getClass().getResource("/com/hk/main/mainframe.fxml");
             FXMLLoader loader = new FXMLLoader(fxml);
             loader.setBuilderFactory(new JavaFXBuilderFactory());
             //fxmlLoader.setController(this);

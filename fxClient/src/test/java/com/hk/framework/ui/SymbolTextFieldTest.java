@@ -1,7 +1,7 @@
 package com.hk.framework.ui;
 
-import com.hk.trade.marketdata.SecurityData;
-import com.hk.trade.marketdata.SymbolTextField;
+import com.hk.marketdata.SecurityData;
+import com.hk.marketdata.SymbolTextField;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;

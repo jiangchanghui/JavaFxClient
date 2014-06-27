@@ -1,6 +1,6 @@
 package com.hk.trade.order;
 
-import com.hk.trade.ui.TableViewFactory;
+import com.hk.framework.ui.tableview.TableViewFactory;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 

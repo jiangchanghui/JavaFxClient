@@ -30,13 +30,13 @@
     -fx-background-radius: 0;
     -fx-border-style: null;
     -fx-background-color: null;
-    -fx-background-image:url("./menu.png");
+    -fx-background-image:url("menu.png");
     -fx-background-size: stretch;
 }
 
 .decoration-button-menu:hover{
     -fx-background-color: null;
-    -fx-background-image:url("./menu-hover.png");
+    -fx-background-image:url("menu-hover.png");
     -fx-background-size: stretch;
 }
 
@@ -47,12 +47,12 @@
     -fx-background-radius: 0;
     -fx-border-style: null;
     -fx-background-color: null;
-    -fx-background-image:url("./close.png");
+    -fx-background-image:url("close.png");
     -fx-background-size: stretch;
 }
 .decoration-button-close:hover{
     -fx-background-color: null;
-    -fx-background-image:url("./close-hover.png");
+    -fx-background-image:url("close-hover.png");
     -fx-background-size: stretch;
 }
 
@@ -63,5 +63,5 @@
     -fx-background-radius: 0;
     -fx-border-style: null;
     -fx-background-color: null;
-    -fx-background-image:url("./resizeSE.png");
+    -fx-background-image:url("resizeSE.png");
 }

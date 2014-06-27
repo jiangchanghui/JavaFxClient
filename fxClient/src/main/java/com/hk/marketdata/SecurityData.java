@@ -1,4 +1,4 @@
-package com.hk.trade.marketdata;
+package com.hk.marketdata;
 
 /**
  * Created by jiangch on 2014/6/24.

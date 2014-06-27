@@ -1,4 +1,4 @@
-package com.hk.trade;
+package com.hk.main;
 
 import com.hk.framework.JavaFxController;
 import com.hk.permission.login.SessionManger;

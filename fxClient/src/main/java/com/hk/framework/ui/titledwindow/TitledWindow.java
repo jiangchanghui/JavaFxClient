@@ -1,13 +1,10 @@
-package com.hk.trade.ui;
+package com.hk.framework.ui.titledwindow;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -38,11 +35,11 @@ public class TitledWindow extends AnchorPane {
 		hBox.setSpacing(2);
 		titleLabel.setAlignment(Pos.CENTER_RIGHT);
 		hBox.getChildren().add(titleLabel);
-		flagFreeButton.setGraphic(new ImageView("com/hk/trade/ui/flap_free.png"));
+		flagFreeButton.setGraphic(new ImageView("com/hk/framework/ui/titledwindow/flap_free.png"));
 		flagFreeButton.setCursor(Cursor.HAND);
 		flagFreeButton.setVisible(true);
 		flagFreeButton.setManaged(true);
-		flagHoldButton.setGraphic(new ImageView("com/hk/trade/ui/flap_hold.png"));
+		flagHoldButton.setGraphic(new ImageView("com/hk/framework/ui/titledwindow/flap_hold.png"));
 		flagHoldButton.setCursor(Cursor.HAND);
 		flagHoldButton.setVisible(false);
 		flagHoldButton.setManaged(false);

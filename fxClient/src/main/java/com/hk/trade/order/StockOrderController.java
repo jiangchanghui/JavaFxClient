@@ -1,8 +1,8 @@
 package com.hk.trade.order;
 
 import com.hk.framework.FxmlLoadUtils;
-import com.hk.trade.marketdata.MarketDataPane;
-import com.hk.trade.ui.TableViewFactory;
+import com.hk.marketdata.MarketDataPane;
+import com.hk.framework.ui.tableview.TableViewFactory;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;

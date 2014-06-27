@@ -1,4 +1,4 @@
-package com.hk.trade.marketdata;
+package com.hk.marketdata;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;

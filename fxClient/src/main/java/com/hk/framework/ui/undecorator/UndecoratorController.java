@@ -1,4 +1,4 @@
-package com.hk.framework.ui;
+package com.hk.framework.ui.undecorator;
 
 import javafx.application.*;
 import javafx.collections.*;

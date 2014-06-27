@@ -1,5 +1,6 @@
 package com.hk.trade.ui;
 
+import com.hk.framework.ui.titledwindow.TitledWindow;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;

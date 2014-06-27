@@ -29,7 +29,7 @@ public class RabbitConfiguration {
 
 	private static CachingConnectionFactory newConnectionFactory() {
 		Properties properties = getRabbitProperties();
-		String host = "localhost";
+		String host = "10.67.2.28";
 		if (host == null) {
 			host = properties.getProperty("host");
 		}

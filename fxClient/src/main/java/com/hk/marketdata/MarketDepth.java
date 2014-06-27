@@ -1,4 +1,4 @@
-package com.hk.trade.marketdata;
+package com.hk.marketdata;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;

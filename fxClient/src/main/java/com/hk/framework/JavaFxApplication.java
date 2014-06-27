@@ -1,7 +1,7 @@
 package com.hk.framework;
 
-import com.hk.framework.ui.Undecorator;
-import com.hk.framework.ui.UndecoratorScene;
+import com.hk.framework.ui.undecorator.Undecorator;
+import com.hk.framework.ui.undecorator.UndecoratorScene;
 import com.hk.permission.login.LoginController;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -11,7 +11,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
-import org.controlsfx.dialog.Dialogs;
 
 import java.io.IOException;
 import java.net.URL;
