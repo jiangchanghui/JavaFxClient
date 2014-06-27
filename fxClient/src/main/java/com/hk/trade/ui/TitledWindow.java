@@ -11,9 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 /**
@@ -26,6 +24,8 @@ public class TitledWindow extends AnchorPane {
 	private final Label flagFreeButton = new Label();
 	private final Label flagHoldButton = new Label();
 	private Stage flapStage;
+	private VBox contentPane = new VBox();
+
 	public TitledWindow(Pane parent){
 
 		setParent(parent);
@@ -69,6 +69,18 @@ public class TitledWindow extends AnchorPane {
 		setRightAnchor(hBox,0.0);
 		setLeftAnchor(hBox,0.0);
 		setTopAnchor(hBox,0.0);
+		getChildren().add(contentPane);
+		setRightAnchor(contentPane,0.0);
+		setLeftAnchor(contentPane, 0.0);
+		setTopAnchor(contentPane, 20.0);
+		setBottomAnchor(contentPane,0.0);
+
+	}
+
+	public void setContent(Node pane){
+		contentPane.getChildren().clear();
+		contentPane.getChildren().addAll(pane);
+		VBox.setVgrow(pane, Priority.ALWAYS);
 	}
 
 	private void handleFlapFree(MouseEvent mouseEvent) {

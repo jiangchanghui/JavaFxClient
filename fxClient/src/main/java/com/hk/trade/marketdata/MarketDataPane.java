@@ -107,7 +107,7 @@ public class MarketDataPane extends VBox {
 		bindMarketPrice(openPriceValue, marketData.openPriceProperty(), marketData.closePriceProperty());
 		openClosePriceGridPane.add(openPriceValue, 3, 0);
 		toggleGroup.getToggles().addAll(closePriceLabel, closePriceValue, openPriceLabel, openPriceValue);
-		getChildren().add(Borders.wrap(openClosePriceGridPane).lineBorder().color(Color.GRAY).innerPadding(0).outerPadding(0).thickness(0, 1, 0, 1).buildAll());
+		getChildren().add(Borders.wrap(openClosePriceGridPane).lineBorder().color(Color.GRAY).innerPadding(0).outerPadding(0).thickness(0, 1, 1, 1).buildAll());
 	}
 
 	private void addDailyLimitPart(ColumnConstraints titleColumn, ColumnConstraints valueColumn, ColumnConstraints titleColumn2, ColumnConstraints valueColumn2) {

@@ -2,11 +2,14 @@ package com.hk.trade;
 
 import com.hk.framework.JavaFxController;
 import com.hk.permission.login.SessionManger;
+import com.hk.trade.order.StockOrderPane;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -24,7 +27,9 @@ public class MainFrameworkController extends JavaFxController {
 	@FXML
 	public Label userNameLabel;
 	@FXML
-	public AnchorPane mainPane;
+	public VBox mainPane;
+
+	private StockOrderPane stockOrderPane = new StockOrderPane();
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -37,7 +42,8 @@ public class MainFrameworkController extends JavaFxController {
 				System.out.println(((ToggleButton)current).getText());
 				if(current == stockTradingButton){
 					mainPane.getChildren().clear();
-					mainPane.getChildren().add(new Button("股票交易"));
+					mainPane.getChildren().add(stockOrderPane);
+					VBox.setVgrow(stockOrderPane, Priority.ALWAYS);
 				} else if(current == bondTradingButton){
 					mainPane.getChildren().clear();
 					mainPane.getChildren().add(new Button("债券交易"));
@@ -48,6 +54,7 @@ public class MainFrameworkController extends JavaFxController {
 			}
 		});
 		toggleGroup.selectToggle(stockTradingButton);
+
 	}
 
 }

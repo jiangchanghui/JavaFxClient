@@ -1,0 +1,76 @@
+.left-bar {
+    -fx-background-color: #dcdcdc;
+}
+.side-tag-button {
+    -fx-background-color: #cdcdcd;
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 2;
+    -fx-padding: 0 0 0 0;
+    -fx-alignment: center;
+    -fx-text-fill: #000000;
+}
+
+.side-tag-button:hover {
+    /*-fx-background-color: #d9eaf6;*/
+    -fx-background-color: #11bff2;
+    -fx-text-fill: #ffffff;
+    /*linear-gradient(#a3a3a3, #8b8b8b 34%, #777777 36%, #777777 63%, #8b8b8b 65%, #adadad);*/
+}
+
+.side-tag-button:pressed {
+    -fx-background-color: #0372c1;
+    -fx-text-fill: #ffffff;
+
+}
+
+.side-tag-button:selected {
+    -fx-background-color: #0372c1;
+    -fx-text-fill: #ffffff;
+}
+
+.buy-execution-button {
+    -fx-background-color: darkred;
+    -fx-text-fill: #ffffff;
+    -fx-text-alignment: center;
+}
+
+.buy-execution-button:hover {
+    -fx-background-color: red;
+}
+
+.buy-execution-button:focused {
+     -fx-border-style: dotted;
+     -fx-border-color: BLACK;
+
+     -fx-border-width: 2 2 2 2;
+     -fx-border-insets: 5 5 5 5;
+}
+
+.sell-execution-button {
+    -fx-background-color: darkgreen;
+    -fx-text-fill: #000000;
+    -fx-text-alignment: center;
+}
+
+.sell-execution-button:hover {
+    -fx-background-color: green;
+}
+
+.sell-execution-button:focused {
+    -fx-border-style: dotted;
+    -fx-border-color: #ffffff;
+    -fx-border-width: 2 2 2 2;
+    -fx-border-insets: 5 5 5 5;
+}
+
+.column-header-background {
+    -fx-background-color: transparent;
+    -fx-min-width: 20;
+
+}
+.column-header{
+    -fx-background-color: transparent;
+    -fx-border-color: gray;
+}
+
+

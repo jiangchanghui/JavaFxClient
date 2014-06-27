@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="364.0" prefWidth="780.0" stylesheets="@../trade.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hk.trade.order.StockOrderController">
+    <children>
+        <VBox layoutX="7.0" layoutY="14.0" prefHeight="364.0" prefWidth="30.0" styleClass="left-bar" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <ToggleButton fx:id="buyTagButton" mnemonicParsing="false" prefHeight="77.0" prefWidth="50.0" selected="true" styleClass="side-tag-button" text="买入" wrapText="true">
+                    <toggleGroup>
+                        <ToggleGroup fx:id="sideToggleGroup" />
+                    </toggleGroup>
+                </ToggleButton>
+                <ToggleButton fx:id="sellTagButton" mnemonicParsing="false" prefHeight="78.0" prefWidth="50.0" rotate="-0.0" styleClass="side-tag-button" text="卖出" toggleGroup="$sideToggleGroup" />
+            </children>
+        </VBox>
+        <HBox layoutX="145.0" layoutY="109.0" prefHeight="100.0" prefWidth="200.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <VBox prefHeight="333.0" prefWidth="374.0" HBox.hgrow="SOMETIMES">
+                    <children>
+                        <HBox layoutX="14.0" layoutY="58.0" prefHeight="335.0" prefWidth="455.0" spacing="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS">
+                            <children>
+                                <GridPane fx:id="detailParameterGroup" hgap="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="331.0" prefWidth="200.0" HBox.hgrow="NEVER">
+                                    <columnConstraints>
+                                        <ColumnConstraints halignment="RIGHT" hgrow="NEVER" maxWidth="93.0" minWidth="10.0" prefWidth="68.0" />
+                                        <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="151.0" minWidth="10.0" prefWidth="132.0" />
+                                    </columnConstraints>
+                                    <rowConstraints>
+                                        <RowConstraints maxHeight="253.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                                        <RowConstraints maxHeight="253.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                                        <RowConstraints maxHeight="253.0" minHeight="6.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                                        <RowConstraints maxHeight="253.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                                        <RowConstraints maxHeight="253.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                                        <RowConstraints maxHeight="253.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                                        <RowConstraints maxHeight="253.0" minHeight="10.0" prefHeight="24.0" vgrow="SOMETIMES" />
+                                        <RowConstraints maxHeight="253.0" minHeight="10.0" prefHeight="62.0" valignment="CENTER" vgrow="NEVER" />
+                                        <RowConstraints maxHeight="253.0" minHeight="10.0" prefHeight="28.0" valignment="CENTER" vgrow="NEVER" />
+                                    </rowConstraints>
+                                    <children>
+                                        <Label text="价格模式" GridPane.rowIndex="1" />
+                                        <Label text="目标类型" />
+                                        <ComboBox fx:id="priceModeCombo" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                        <ComboBox fx:id="targetTypeCombo" prefWidth="150.0" GridPane.columnIndex="1" />
+                                        <Label text="价格" GridPane.rowIndex="3" />
+                                        <Label text="数量" GridPane.rowIndex="4" />
+                                        <Label text="金额" GridPane.rowIndex="5" />
+                                        <Button fx:id="actionButton" mnemonicParsing="false" prefHeight="45.0" prefWidth="80.0" styleClass="buy-execution-button" text="卖出" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+                                    </children>
+                                </GridPane>
+                                <VBox fx:id="marketDataParentPane" minHeight="-Infinity" minWidth="-Infinity" prefHeight="260.0" prefWidth="250.0" HBox.hgrow="NEVER" />
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+                <VBox fx:id="capitalAccountVBox" prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS">
+
+                </VBox>
+            </children>
+        </HBox>
+    </children>
+</AnchorPane>
