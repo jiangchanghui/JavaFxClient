@@ -1,5 +1,5 @@
 
-package com.hk.proxy.amqp;
+package com.hk.remote.amqp;
 
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;

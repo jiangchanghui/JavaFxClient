@@ -1,5 +1,5 @@
 
-package com.hk.proxy.amqp;
+package com.hk.remote.amqp;
 
 import java.io.Serializable;
 import java.util.Map;

@@ -1,7 +1,7 @@
 package com.hk.permission.login;
 
-import com.hk.proxy.LoginCommandController;
-import com.hk.proxy.amqp.SessionCache;
+import com.hk.remote.LoginCommandController;
+import com.hk.remote.amqp.SessionCache;
 import elf.api.security.command.login.Ticket;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

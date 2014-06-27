@@ -1,9 +1,8 @@
-package com.hk.proxy;
+package com.hk.remote;
 
 import java.util.Collections;
-import java.util.List;
 
-import com.hk.proxy.amqp.ServiceProxyFactory;
+import com.hk.remote.amqp.ServiceProxyFactory;
 import elf.api.security.command.exception.SecurityException;
 import elf.api.security.command.login.LoginCommand;
 import elf.api.security.command.login.LoginEvent;
