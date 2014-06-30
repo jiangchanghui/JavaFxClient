@@ -1,4 +1,4 @@
-package com.hk.trade.order;
+package com.hk.query;
 
 import com.hk.framework.ui.tableview.TableColumnName;
 import javafx.beans.property.SimpleDoubleProperty;

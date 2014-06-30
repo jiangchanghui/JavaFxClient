@@ -1,6 +1,8 @@
 package com.hk.trade.order;
 
+import com.hk.framework.ui.tableview.TableViewWithColumn;
 import com.hk.framework.ui.titledwindow.TitledWindow;
+import com.hk.query.FundAsset;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;

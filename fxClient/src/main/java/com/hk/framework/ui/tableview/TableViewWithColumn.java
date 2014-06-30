@@ -1,4 +1,4 @@
-package com.hk.trade.order;
+package com.hk.framework.ui.tableview;
 
 import com.hk.framework.ui.tableview.TableViewFactory;
 import javafx.scene.control.TableColumn;
