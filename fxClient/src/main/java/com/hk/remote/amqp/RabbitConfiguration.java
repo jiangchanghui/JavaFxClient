@@ -67,10 +67,15 @@ public class RabbitConfiguration {
 		}
 	}
 
+	public static void destroy(){
+		if(connectionFactory!=null) {
+			connectionFactory.destroy();
+		}
+	}
+
 	/**
 	 * @return
 	 */
-
 	private static Properties getRabbitProperties() {
 		try {
 			Properties properties = new Properties();

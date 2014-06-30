@@ -12,14 +12,15 @@ import java.net.URL;
  */
 public class FxmlLoadUtils {
 
-	public static Pane loadFxml(String fxmlUri, Class<?> classe) {
-		URL fxml = classe.getResource(fxmlUri);
+	public static FxmlContent loadFxml(String fxmlUri) {
+		URL fxml = FxmlLoadUtils.class.getResource(fxmlUri);
 		System.out.println(fxml);
 		FXMLLoader loader = new FXMLLoader(fxml);
 		loader.setBuilderFactory(new JavaFXBuilderFactory());
 		try {
-			Pane pane = (Pane) loader.load();
-			return pane;
+			Pane pane = loader.load();
+			Object controller = loader.getController();
+			return new FxmlContent(pane, controller);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;

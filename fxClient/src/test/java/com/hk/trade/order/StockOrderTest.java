@@ -13,7 +13,7 @@ public class StockOrderTest extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
-		Pane pane = FxmlLoadUtils.loadFxml("/com/hk/trade/order/stockordermain.fxml", this.getClass());
+		Pane pane = FxmlLoadUtils.loadFxml("/com/hk/trade/order/stockordermain.fxml").getPane();
 		System.out.println(pane);
 		Scene scene = new Scene(pane);
 		stage.setScene(scene);

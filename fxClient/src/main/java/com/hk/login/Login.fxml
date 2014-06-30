@@ -13,7 +13,7 @@
 <?import java.lang.*?>
 <?import org.controlsfx.control.*?>
 
-<AnchorPane cacheShape="false" centerShape="false" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="258.0" prefWidth="363.0" scaleShape="false" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hk.permission.login.LoginController">
+<AnchorPane cacheShape="false" centerShape="false" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="258.0" prefWidth="363.0" scaleShape="false" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hk.login.LoginController">
    <cursor>
       <Cursor fx:constant="DEFAULT" />
    </cursor>

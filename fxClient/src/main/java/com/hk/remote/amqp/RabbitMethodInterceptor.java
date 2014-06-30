@@ -20,6 +20,10 @@ public class RabbitMethodInterceptor implements MethodInterceptor {
 	private static final ExecutorService threadPool = Executors.newFixedThreadPool(20);
 	private final int timeout;
 
+	public static void destroy(){
+		threadPool.shutdownNow();
+	}
+
 	public RabbitMethodInterceptor(int timeout) {
 		this.timeout = timeout;
 	}

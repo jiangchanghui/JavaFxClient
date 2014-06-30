@@ -1,4 +1,4 @@
-package com.hk.permission.login;
+package com.hk.login;
 
 /**
  * Created by jiangch on 2014/6/23.

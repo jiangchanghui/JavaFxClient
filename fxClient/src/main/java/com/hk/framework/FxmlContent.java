@@ -8,9 +8,9 @@ import javafx.scene.layout.Pane;
 public class FxmlContent {
 
 	private final Pane pane;
-	private final JavaFxController controller;
+	private final Object controller;
 
-	public FxmlContent(Pane pane, JavaFxController controller) {
+	public FxmlContent(Pane pane, Object controller) {
 		this.pane = pane;
 		this.controller = controller;
 	}
@@ -19,7 +19,7 @@ public class FxmlContent {
 		return pane;
 	}
 
-	public JavaFxController getController() {
+	public Object getController() {
 		return controller;
 	}
 

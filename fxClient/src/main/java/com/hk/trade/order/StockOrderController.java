@@ -55,7 +55,7 @@ public class StockOrderController implements Initializable{
 
 
 	public static Pane getInstance(){
-		return FxmlLoadUtils.loadFxml("/com/hk/trade/order/stockordermain.fxml", StockOrderController.class);
+		return FxmlLoadUtils.loadFxml("/com/hk/trade/order/stockordermain.fxml").getPane();
 	}
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {

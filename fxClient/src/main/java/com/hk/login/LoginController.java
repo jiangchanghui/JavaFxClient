@@ -1,19 +1,29 @@
-package com.hk.permission.login;
+package com.hk.login;
 
-import com.hk.framework.JavaFxController;
+import com.hk.framework.FxmlContent;
+import com.hk.framework.FxmlLoadUtils;
+import com.hk.framework.ui.undecorator.Undecorator;
+import com.hk.framework.ui.undecorator.UndecoratorScene;
+import com.hk.remote.amqp.RabbitConfiguration;
+import com.hk.remote.amqp.RabbitMethodInterceptor;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import org.controlsfx.control.textfield.CustomPasswordField;
 import org.controlsfx.control.textfield.CustomTextField;
 import org.controlsfx.validation.ValidationSupport;
@@ -25,7 +35,7 @@ import java.util.ResourceBundle;
 /**
  * Created by jiangch on 2014/6/7.
  */
-public class LoginController extends JavaFxController {
+public class LoginController extends Pane implements Initializable {
 
 	@FXML
 	public Button loginButton;
@@ -41,9 +51,45 @@ public class LoginController extends JavaFxController {
 	private CustomPasswordField accountPasswordField;
 	@FXML
 	private Label loginErrorMessage;
-	private Stage stage;
 	private ValidationSupport validationSupport;
 	private LoginService loginService = new LoginService();
+	private SimpleBooleanProperty loginState = new SimpleBooleanProperty(false);
+	private Stage stage;
+
+	public static FxmlContent getInstance() {
+		FxmlContent content = FxmlLoadUtils.loadFxml("/com/hk/login/Login.fxml");
+		return content;
+	}
+
+	public static LoginController loadLoginUI(Stage owner) {
+		Stage loginStage = new Stage();
+		loginStage.setResizable(false);
+		FxmlContent content = getInstance();
+		final UndecoratorScene undecoratorScene = new UndecoratorScene(loginStage, content.getPane());
+		undecoratorScene.setFadeInTransition();
+		loginStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+			@Override
+			public void handle(WindowEvent we) {
+				we.consume();   // Do not hide
+				((LoginController) (content.getController())).close();
+				undecoratorScene.setFadeOutTransition();
+				RabbitConfiguration.destroy();
+				RabbitMethodInterceptor.destroy();
+				owner.close();
+			}
+		});
+		loginStage.initOwner(owner);
+		loginStage.setScene(undecoratorScene);
+		loginStage.sizeToScene();
+		loginStage.toFront();
+		Undecorator undecorator = undecoratorScene.getUndecorator();
+		loginStage.setMinWidth(undecorator.getMinWidth());
+		loginStage.setMinHeight(undecorator.getMinHeight());
+		loginStage.show();
+		LoginController controller = (LoginController) content.getController();
+		controller.setStage(loginStage);
+		return controller;
+	}
 
 	public void login(ActionEvent actionEvent) {
 		String account = accountNoTextField.getText();
@@ -59,21 +105,14 @@ public class LoginController extends JavaFxController {
 		}
 	}
 
-	private void redirectToMain() {
-		application.loadUI("mainframe");
-		stage.close();
-		application.getPrimaryStage().show();
-		application.getPrimaryStage().setMaximized(true);
-	}
-
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
 		loginErrorMessage.setText("");
 		loginErrorMessage.setTextFill(Color.RED);
 		accountNoTextField.setPromptText("ÕËºÅ");
-		accountNoTextField.setLeft(new ImageView("com/hk/permission/login/user.png"));
+		accountNoTextField.setLeft(new ImageView("com/hk/login/user.png"));
 		accountPasswordField.setPromptText("ÃÜÂë");
-		accountPasswordField.setLeft(new ImageView("com/hk/permission/login/lock.png"));
+		accountPasswordField.setLeft(new ImageView("com/hk/login/lock.png"));
 		loginButton.setDefaultButton(true);
 		validationSupport = new ValidationSupport();
 		Platform.runLater(() -> {
@@ -98,7 +137,8 @@ public class LoginController extends JavaFxController {
 				if (Worker.State.RUNNING == state2) {
 					loginButton.setText("È¡  Ïû");
 				} else if (Worker.State.SUCCEEDED == state2) {
-					redirectToMain();
+					loginState.set(true);
+					close();
 				} else {
 					loginButton.setText("µÇ  Â½");
 				}
@@ -107,9 +147,9 @@ public class LoginController extends JavaFxController {
 		loginService.exceptionProperty().addListener(new ChangeListener<Throwable>() {
 			@Override
 			public void changed(ObservableValue<? extends Throwable> observableValue, Throwable throwable, Throwable throwable2) {
-				if(throwable2==null){
+				if (throwable2 == null) {
 					loginErrorMessage.setText("");
-				}else {
+				} else {
 					loginErrorMessage.setText(throwable2.getMessage());
 				}
 			}
@@ -117,9 +157,23 @@ public class LoginController extends JavaFxController {
 		loginService.valueProperty().addListener(new ChangeListener<ObservableList<LoginResult>>() {
 			@Override
 			public void changed(ObservableValue<? extends ObservableList<LoginResult>> observableValue, ObservableList<LoginResult> loginResults, ObservableList<LoginResult> loginResults2) {
+				if (loginResults2 == null) {
+					return;
+				}
 				SessionManger.setCurrentAccount(loginResults2.get(0).getAccountNo());
 			}
 		});
+
+	}
+
+	public SimpleBooleanProperty loginStateProperty() {
+		return loginState;
+	}
+
+	public void close() {
+		loginService.cancel();
+		loginService.reset();
+		this.stage.close();
 	}
 
 	public void setStage(Stage stage) {

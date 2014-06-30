@@ -1,4 +1,4 @@
-package com.hk.permission.login;
+package com.hk.login;
 
 import com.hk.remote.LoginCommandController;
 import com.hk.remote.amqp.SessionCache;
@@ -56,7 +56,8 @@ public class LoginService extends Service<ObservableList<LoginResult>> {
 
 		private void login() {
 			if (mockUser(accountInfo.getAccountNo())) {
-				return;
+				throw new RuntimeException("½ûÖ¹µÇÂ½");
+				//return;
 			}
 			authenticate(accountInfo.getAccountNo(), accountInfo.getPassword());
 		}
